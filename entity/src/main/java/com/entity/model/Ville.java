@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -16,10 +17,13 @@ import javax.persistence.Table;
 @Table ( name = "FE_VILLE")
 public class Ville {
 
+
     @Id
+    @NotNull
     @Column ( name = "ID_VILLE")
     private int idVille;
 
-    @Column ( name = "NOM_VILLE")
+    @NotNull
+    @Column ( name = "NOM_VILLE", length = 50)
     private String nomVille;
 }

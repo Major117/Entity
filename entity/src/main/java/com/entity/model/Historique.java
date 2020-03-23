@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Table (name = "FT_HISTORIQUE")
 public class Historique {
 
+
     @Id
     @Column ( name = "ID_HISTORIQUE")
     private int idHistorique;
@@ -22,16 +23,16 @@ public class Historique {
     @Column ( name = "DATE")
     private LocalDateTime date;
 
-    @Column ( name = "OPERATION")
+    @Column ( name = "OPERATION", length = 1)
     private String operation;
 
-    @Column ( name = "LOG")
+    @Column ( name = "LOG", length = 50)
     private String login;
 
-    @Column ( name = "PRENOM")
+    @Column ( name = "PRENOM", length = 50)
     private String prenom;
 
-    @Column ( name = "NOM")
+    @Column ( name = "NOM", length = 50)
     private String nom;
 
     @ManyToOne

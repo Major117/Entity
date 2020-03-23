@@ -4,6 +4,7 @@ package com.entity.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
@@ -16,10 +17,12 @@ import java.util.Collection;
 public class Activite {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     @Column (name = "ID_ACTIVITE")
     private int idActivite;
 
-    @Column ( name = "NOM_ACTIVITE")
+    @NotNull
+    @Column ( name = "NOM_ACTIVITE", length = 50)
     private String nomActivite;
 
     @ManyToMany

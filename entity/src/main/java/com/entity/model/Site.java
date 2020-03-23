@@ -3,7 +3,7 @@ package com.entity.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Collection;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -15,16 +15,20 @@ import java.util.Collection;
 public class Site {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     @Column ( name = "ID_SITE")
     private int idSite;
 
+    @NotNull
     @Column ( name = "CODE_SITE")
     private int codeSite;
 
-    @Column ( name = "NOM_SITE")
+    @NotNull
+    @Column ( name = "NOM_SITE", length = 50)
     private String nomSite;
 
-    @OneToOne
+    @NotNull
+    @OneToOne (fetch = FetchType.EAGER )
     @JoinColumn ( name = "ID_VILLE")
     private Ville ville;
 }
