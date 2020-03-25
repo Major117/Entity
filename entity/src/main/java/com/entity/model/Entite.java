@@ -18,7 +18,7 @@ import java.util.List;
 @Table (name = "FE_ENTITE")
 public class Entite {
 
- public Entite(String codeEntite, String libelle, boolean rh, boolean comptable, String voiePhysique, String cpPhysique, String voiePostale, String cpPostale, Metier metier, Site site, Ville villePhysique, Ville villePostale, Entite entiteMere, List<Activite> activite) {
+ public Entite(String codeEntite, String libelle, boolean rh, boolean comptable, String voiePhysique, String cpPhysique, String voiePostale, String cpPostale, Metier metier, Site site, Ville villePhysique, Ville villePostale, Entite entiteMere, List<Activite> activites,List<Historique> historiques) {
        this.codeEntite = codeEntite;
        this.libelle = libelle;
        this.rh = rh;
@@ -32,12 +32,12 @@ public class Entite {
        this.villePhysique = villePhysique;
        this.villePostale = villePostale;
        this.entiteMere = entiteMere;
-       this.activite = activite;
+       this.activites = activites;
+       this.historiques = historiques;
  }
 
- @Id
-    @NotNull
-    @Column ( name = "CODE_ENTITE", length = 6)
+    @Id
+    @Column ( name = "CODE_ENTITE", length = 6, nullable = false, columnDefinition = "CHAR(6)")
     private String codeEntite;
 
    @NotNull
@@ -85,17 +85,19 @@ public class Entite {
     private Ville villePostale;
 
     @OneToOne (fetch = FetchType.LAZY )
-    @NotNull
     @JoinColumn (name = "CODE_ENTITE_MERE")
     private Entite entiteMere;
 
-    @ManyToMany// ( fetch = FetchType.EAGER)
+    @ManyToMany //( fetch = FetchType.EAGER)
     @JoinTable(
             name = "FR_ENTITE_ACTIVITE",
-            joinColumns = { @JoinColumn(name = "ID_ACTIVITE") },
-            inverseJoinColumns = { @JoinColumn(name = "CODE_ENTITE") })
-    private Collection<Activite> activite;
+            inverseJoinColumns =  @JoinColumn(name = "ID_ACTIVITE") ,
+            joinColumns =  @JoinColumn(name = "CODE_ENTITE"))
+    private Collection<Activite> activites;
 
+    @OneToMany (cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.EAGER)
+    @JoinColumn(name = "CODE_ENTITE")
+    private Collection<Historique> historiques;
 
 }
 

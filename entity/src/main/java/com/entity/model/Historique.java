@@ -35,9 +35,9 @@ public class Historique {
     @Column ( name = "NOM", length = 50)
     private String nom;
 
-    @ManyToOne
+ /*   @ManyToOne
     @JoinColumn ( name = "CODE_ENTITE")
-    private Entite entite;
+    private Entite entite;*/
 
 
 }
