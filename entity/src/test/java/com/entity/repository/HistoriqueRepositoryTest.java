@@ -22,12 +22,11 @@ public class HistoriqueRepositoryTest {
     @Test
     void testDonnéeOperationEtDateEntite() {
 
-      // Entite entiteTest = entiteRepository.findById("AB1337").get();
-       // Historique historiqueTest = historiqueRepository.findHistoriqueByEntite(entiteRepository.findById("AB1337").get());
-        //Historique historiqueTest = historiqueRepository.findById(5).get();
+        Historique historiqueTest = historiqueRepository.findById(5).get();
 
-      // assertEquals("C", historiqueTest.getOperation());
-      // assertEquals("22-01-2016, 02:37:00", historiqueTest.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy, hh:mm:ss")));
+
+       assertEquals("C", historiqueTest.getOperation());
+       assertEquals("22-01-2016 02:37:00", historiqueTest.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss")));
 
     }
 

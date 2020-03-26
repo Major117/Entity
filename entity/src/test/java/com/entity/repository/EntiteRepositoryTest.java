@@ -9,6 +9,7 @@ import com.entity.repository.VilleRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 public class EntiteRepositoryTest {
 
     @Autowired //
@@ -54,7 +56,7 @@ public class EntiteRepositoryTest {
     }
 
     @Test
-    void testRecuperationDesDonnéesEntitée() {
+    void testRecuperationDesDonneesEntitee() {
         Entite entiteTest = entiteRepository.findById("AB1337").get();
 
         assertNotNull(entiteTest);
@@ -70,10 +72,10 @@ public class EntiteRepositoryTest {
         assertEquals("Confolens", entiteTest.getSite().getNomSite());
         assertEquals("courrier", entiteTest.getMetier().getNomMetier());
         assertEquals("PA2759", entiteTest.getEntiteMere().getCodeEntite());
-      //  assertEquals("Siége social", entiteTest.getEntiteMere().getLibelle());
+        assertEquals("Siège social", entiteTest.getEntiteMere().getLibelle());
         assertEquals("Confolens", entiteTest.getVillePhysique().getNomVille());
         assertEquals("Confolens", entiteTest.getVillePostale().getNomVille());
-      //  assertEquals(3, entiteTest.getActivites().size());
+        assertEquals(3, entiteTest.getActivites().size());
         assertEquals(1, entiteTest.getHistoriques().size());
 
     }
@@ -90,7 +92,8 @@ public class EntiteRepositoryTest {
         Site site = siteRepository.findById(3).get();
         Entite mere = entiteRepository.findById("AA0000").get();
 
-        Entite entiteTest = new Entite ("AA1234","juste test", false,false,"test voie","16500","test voie","16500",metier,site,ville,ville,mere,null,null);
+
+        Entite entiteTest = new Entite ("AA1234","juste test", false,false,"test voie","16500","test voie","16500",metier,site,ville,ville,mere,null, null);
         entiteRepository.save(entiteTest);
         Entite entiteTest2 = entiteRepository.findById("AA1234").get();
         assertNotNull(entiteTest);
@@ -109,7 +112,8 @@ public class EntiteRepositoryTest {
         Site site = siteRepository.findById(3).get();
         Entite mere = entiteRepository.findById("AA0000").get();
 
-        Entite entiteTest = new Entite("AA1237", "PDC confolens", true, true, "test voie" , "16500", "test voie" , "16500", metier, site, ville,ville, mere,null,null);
+
+        Entite entiteTest = new Entite("AA1237", "PDC confolens", true, true, "test voie" , "16500", "test voie" , "16500", metier, site, ville,ville, mere,null, null);
 
         entiteRepository.save(entiteTest);
         entiteRepository.deleteById(entiteTest.getCodeEntite());
@@ -121,8 +125,9 @@ public class EntiteRepositoryTest {
      *
      */
     void testRechercheMultiCritere() {
+        Metier metier = metierRepository.findById(3).get();
 
-        List<Entite> testRecherche = entiteRepository.findByCriteria("Pag", "44000");
+        List<Entite> testRecherche = entiteRepository.findByCriteria("Pag",metier,null);
          assertEquals(1, testRecherche.size());
 
     }

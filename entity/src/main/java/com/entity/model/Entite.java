@@ -1,7 +1,8 @@
 package com.entity.model;
 
 
-import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 
 import javax.persistence.*;
@@ -10,11 +11,6 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
-//@AllArgsConstructor
-@Getter
-@Setter
-@ToString
 @Table (name = "FE_ENTITE")
 public class Entite {
 
@@ -35,6 +31,10 @@ public class Entite {
        this.activites = activites;
        this.historiques = historiques;
  }
+
+    public Entite() {
+
+    }
 
     @Id
     @Column ( name = "CODE_ENTITE", length = 6, nullable = false, columnDefinition = "CHAR(6)")
@@ -88,7 +88,8 @@ public class Entite {
     @JoinColumn (name = "CODE_ENTITE_MERE")
     private Entite entiteMere;
 
-    @ManyToMany //( fetch = FetchType.EAGER)
+    @ManyToMany ( fetch = FetchType.EAGER)
+    @Fetch( FetchMode.SUBSELECT)
     @JoinTable(
             name = "FR_ENTITE_ACTIVITE",
             inverseJoinColumns =  @JoinColumn(name = "ID_ACTIVITE") ,
@@ -96,8 +97,150 @@ public class Entite {
     private Collection<Activite> activites;
 
     @OneToMany (cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.EAGER)
+    @Fetch( FetchMode.SUBSELECT)
     @JoinColumn(name = "CODE_ENTITE")
     private Collection<Historique> historiques;
 
+
+    public String getCodeEntite() {
+        return codeEntite;
+    }
+
+    public void setCodeEntite(String codeEntite) {
+        this.codeEntite = codeEntite;
+    }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
+
+    public boolean isRh() {
+        return rh;
+    }
+
+    public void setRh(boolean rh) {
+        this.rh = rh;
+    }
+
+    public boolean isComptable() {
+        return comptable;
+    }
+
+    public void setComptable(boolean comptable) {
+        this.comptable = comptable;
+    }
+
+    public String getVoiePhysique() {
+        return voiePhysique;
+    }
+
+    public void setVoiePhysique(String voiePhysique) {
+        this.voiePhysique = voiePhysique;
+    }
+
+    public String getCpPhysique() {
+        return cpPhysique;
+    }
+
+    public void setCpPhysique(String cpPhysique) {
+        this.cpPhysique = cpPhysique;
+    }
+
+    public String getVoiePostale() {
+        return voiePostale;
+    }
+
+    public void setVoiePostale(String voiePostale) {
+        this.voiePostale = voiePostale;
+    }
+
+    public String getCpPostale() {
+        return cpPostale;
+    }
+
+    public void setCpPostale(String cpPostale) {
+        this.cpPostale = cpPostale;
+    }
+
+    public Metier getMetier() {
+        return metier;
+    }
+
+    public void setMetier(Metier metier) {
+        this.metier = metier;
+    }
+
+    public Site getSite() {
+        return site;
+    }
+
+    public void setSite(Site site) {
+        this.site = site;
+    }
+
+    public Ville getVillePhysique() {
+        return villePhysique;
+    }
+
+    public void setVillePhysique(Ville villePhysique) {
+        this.villePhysique = villePhysique;
+    }
+
+    public Ville getVillePostale() {
+        return villePostale;
+    }
+
+    public void setVillePostale(Ville villePostale) {
+        this.villePostale = villePostale;
+    }
+
+    public Entite getEntiteMere() {
+        return entiteMere;
+    }
+
+    public void setEntiteMere(Entite entiteMere) {
+        this.entiteMere = entiteMere;
+    }
+
+    public Collection<Activite> getActivites() {
+        return activites;
+    }
+
+    public void setActivites(Collection<Activite> activites) {
+        this.activites = activites;
+    }
+
+    public Collection<Historique> getHistoriques() {
+        return historiques;
+    }
+
+    public void setHistoriques(Collection<Historique> historiques) {
+        this.historiques = historiques;
+    }
+
+    @Override
+    public String toString() {
+        return "Entite{" +
+                "codeEntite='" + codeEntite + '\'' +
+                ", libelle='" + libelle + '\'' +
+                ", rh=" + rh +
+                ", comptable=" + comptable +
+                ", voiePhysique='" + voiePhysique + '\'' +
+                ", cpPhysique='" + cpPhysique + '\'' +
+                ", voiePostale='" + voiePostale + '\'' +
+                ", cpPostale='" + cpPostale + '\'' +
+                ", metier=" + metier +
+                ", site=" + site +
+                ", villePhysique=" + villePhysique +
+                ", villePostale=" + villePostale +
+                ", entiteMere=" + entiteMere +
+                ", activites=" + activites +
+                ", historiques=" + historiques +
+                '}';
+    }
 }
 

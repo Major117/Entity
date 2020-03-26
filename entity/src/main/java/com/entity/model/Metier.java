@@ -1,18 +1,16 @@
 package com.entity.model;
 
-import lombok.*;
 
 import javax.persistence.*;
+import javax.persistence.criteria.Expression;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @Table ( name = "FE_METIER")
 public class Metier {
+
+    public Metier() {
+    }
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
@@ -23,4 +21,27 @@ public class Metier {
     @Column ( name = "NOM_METIER", length = 50)
     private String nomMetier;
 
+    public int getCodeMetier() {
+        return codeMetier;
+    }
+
+    public void setCodeMetier(int codeMetier) {
+        this.codeMetier = codeMetier;
+    }
+
+    public String getNomMetier() {
+        return nomMetier;
+    }
+
+    public void setNomMetier(String nomMetier) {
+        this.nomMetier = nomMetier;
+    }
+
+    @Override
+    public String toString() {
+        return "Metier{" +
+                "codeMetier=" + codeMetier +
+                ", nomMetier='" + nomMetier + '\'' +
+                '}';
+    }
 }

@@ -1,20 +1,16 @@
 package com.entity.model;
 
-import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @Table (name = "FT_HISTORIQUE")
 public class Historique {
 
+    public Historique() {
+    }
 
     @Id
     @Column ( name = "ID_HISTORIQUE")
@@ -35,9 +31,64 @@ public class Historique {
     @Column ( name = "NOM", length = 50)
     private String nom;
 
- /*   @ManyToOne
-    @JoinColumn ( name = "CODE_ENTITE")
-    private Entite entite;*/
 
+    public int getIdHistorique() {
+        return idHistorique;
+    }
 
+    public void setIdHistorique(int idHistorique) {
+        this.idHistorique = idHistorique;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    @Override
+    public String toString() {
+        return "Historique{" +
+                "idHistorique=" + idHistorique +
+                ", date=" + date +
+                ", operation='" + operation + '\'' +
+                ", login='" + login + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", nom='" + nom + '\'' +
+                '}';
+    }
 }

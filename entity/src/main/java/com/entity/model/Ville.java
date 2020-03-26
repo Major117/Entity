@@ -1,7 +1,5 @@
 package com.entity.model;
 
-import lombok.*;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,15 +7,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@EqualsAndHashCode
 @Table ( name = "FE_VILLE")
 public class Ville {
 
+    public Ville() {
+    }
 
     @Id
     @NotNull
@@ -27,4 +21,28 @@ public class Ville {
     @NotNull
     @Column ( name = "NOM_VILLE", length = 50)
     private String nomVille;
+
+    public int getIdVille() {
+        return idVille;
+    }
+
+    public void setIdVille(int idVille) {
+        this.idVille = idVille;
+    }
+
+    public String getNomVille() {
+        return nomVille;
+    }
+
+    public void setNomVille(String nomVille) {
+        this.nomVille = nomVille;
+    }
+
+    @Override
+    public String toString() {
+        return "Ville{" +
+                "idVille=" + idVille +
+                ", nomVille='" + nomVille + '\'' +
+                '}';
+    }
 }
