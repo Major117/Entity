@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../Entity-Front/Entity-Front.iml" filepath="$PROJECT_DIR$/../../Entity-Front/Entity-Front.iml" />
+      <module fileurl="file://$PROJECT_DIR$/entity.iml" filepath="$PROJECT_DIR$/entity.iml" />
+    </modules>
+  </component>
+</project>
