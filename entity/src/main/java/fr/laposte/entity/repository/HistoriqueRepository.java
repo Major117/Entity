@@ -1,7 +1,7 @@
-package com.entity.repository;
+package fr.laposte.entity.repository;
 
 
-import com.entity.model.Historique;
+import fr.laposte.entity.model.Historique;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

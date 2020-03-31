@@ -1,4 +1,4 @@
-package com.entity;
+package fr.laposte.entity;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

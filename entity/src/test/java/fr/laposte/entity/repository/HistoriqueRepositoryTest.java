@@ -1,7 +1,6 @@
-package com.entity.repository;
+package fr.laposte.entity.repository;
 
-import com.entity.model.Entite;
-import com.entity.model.Historique;
+import fr.laposte.entity.model.Historique;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

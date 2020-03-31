@@ -1,6 +1,6 @@
-package com.entity.repository;
+package fr.laposte.entity.repository;
 
-import com.entity.model.Site;
+import fr.laposte.entity.model.Site;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

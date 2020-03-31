@@ -1,4 +1,4 @@
-package com.entity.model;
+package fr.laposte.entity.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

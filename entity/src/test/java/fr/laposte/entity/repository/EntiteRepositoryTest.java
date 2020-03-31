@@ -1,11 +1,7 @@
-package com.entity.repository;
+package fr.laposte.entity.repository;
 
 
-import com.entity.model.*;
-import com.entity.repository.EntiteRepository;
-import com.entity.repository.MetierRepository;
-import com.entity.repository.SiteRepository;
-import com.entity.repository.VilleRepository;
+import fr.laposte.entity.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +24,8 @@ public class EntiteRepositoryTest {
             SiteRepository siteRepository;
     @Autowired
             MetierRepository metierRepository;
-
+    @Autowired
+    ActiviteRepository activiteRepository;
 
 
     /**
@@ -126,8 +123,10 @@ public class EntiteRepositoryTest {
      */
     void testRechercheMultiCritere() {
         Metier metier = metierRepository.findById(3).get();
+        Ville ville = villeRepository.findById(1).get();
+        Activite activite = activiteRepository.findById(3).get();
 
-        List<Entite> testRecherche = entiteRepository.findByCriteria("Pag",metier,null);
+        List<Entite> testRecherche = entiteRepository.findByCriteria("Pag",metier,ville,null, activite);
          assertEquals(1, testRecherche.size());
 
     }
