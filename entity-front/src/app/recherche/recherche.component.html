@@ -1,0 +1,12 @@
+<h1>Recherche d'entités</h1>
+
+<div>
+  <form [formGroup]="rechercheForm" (ngSubmit)="rechercheParCodeEntite()">
+    <label>Code entité : </label>
+    <input type="text" name="codeEntite" formControlName="codeEntite">
+    <button type="submit">Rechercher</button>
+  </form>
+</div>
+<pre *ngIf="entite !== null">{{entite | json}}</pre>
+<p>{{messageError}}</p>
+<app-affichage-entite></app-affichage-entite>
