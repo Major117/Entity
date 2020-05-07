@@ -1,15 +1,13 @@
 package fr.laposte.entity.repository;
 
-import fr.laposte.entity.model.Activite;
-import fr.laposte.entity.model.Entite;
-import fr.laposte.entity.model.Metier;
-import fr.laposte.entity.model.Ville;
+import fr.laposte.entity.model.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EntiteRepositoryCustom  {
 
-    List<Entite> findByCriteria(String libelle, Metier metier, Ville ville, Boolean rh, Activite activite);
+    List<Entite> findByCriteria(String libelle, int metier, int ville, Boolean active, Boolean rh, LocalDateTime date, int activite, int limit);
 
 
 

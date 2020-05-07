@@ -1,0 +1,41 @@
+header {
+  height: 5.5em;
+  width: auto;
+  background-color: #fafafa;
+  margin: auto;
+}
+
+mat-toolbar {
+  min-height: 40px;
+  height: 40px;
+}
+
+
+.sticky{
+  position: fixed;
+  top: 0;
+  overflow: hidden;
+  z-index: 10;
+  margin-bottom: 3em;
+}
+
+.logo {
+  margin-top: 0.6em;
+  height: 4em;
+  width: auto;
+}
+
+.logoPoste {
+  margin-top: 0.6em;
+  height: 4em;
+  float: left;
+  width: auto;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.mesLogo {
+  text-align: center;
+}

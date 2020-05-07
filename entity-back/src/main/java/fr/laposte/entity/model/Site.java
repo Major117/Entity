@@ -17,7 +17,7 @@ public class Site {
 
     @NotNull
     @Column ( name = "CODE_SITE")
-    private int codeSite;
+    private String codeSite;
 
     @NotNull
     @Column ( name = "NOM_SITE", length = 50)
@@ -36,11 +36,11 @@ public class Site {
         this.idSite = idSite;
     }
 
-    public int getCodeSite() {
+    public String getCodeSite() {
         return codeSite;
     }
 
-    public void setCodeSite(int codeSite) {
+    public void setCodeSite(String codeSite) {
         this.codeSite = codeSite;
     }
 

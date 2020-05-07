@@ -1,0 +1,72 @@
+
+p {
+  margin: 0.875em 1.2em;
+  font-size: 1.1em;
+  color: #212121;
+}
+
+h1 {
+  font-size: 1.75em;
+  text-align: center;
+  margin: 4.5em auto;
+  color: #10247d;
+}
+
+.effet {
+  border-radius:  0.25em ;
+  background: white;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
+}
+span {
+  display: inline-flex;
+}
+
+a {
+  cursor: pointer;
+}
+a:hover {
+  color: #10247d;
+  text-decoration: underline #10247d;
+}
+
+.adresse {
+  width: 45%;
+}
+
+.historique {
+  width: 93%;
+  clear: both;
+}
+
+.libelle {
+  width: 45%;
+  clear: both;
+}
+
+#spécialP {
+  margin-bottom: 0;
+}
+
+#divBouton {
+  clear: both;
+  float: left;
+  width: 93%;
+  margin: 3%;
+}
+#retour {
+  float: right;
+}
+
+
+@media only screen and (max-width: 750px) {
+  .adresse {width: 96%}
+  .historique {width: 96%}
+  .libelle {width: 96%}
+}

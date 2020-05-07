@@ -1,1 +1,60 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  background-color: #FAFAFA;
+  margin: auto;
+}
+
+
+/*  SECTIONS  */
+.section {
+  clear: both;
+  padding: 0;
+  margin: 0;
+}
+
+/*  COLUMN SETUP  */
+.col {
+  display: block;
+  float:left;
+  margin: 1% 1.5% 1% 1.5%;
+}
+/*.col:first-child { margin-left: 0; }*/
+
+/*  GROUPING  */
+.group:before,
+.group:after { content:""; display:table; }
+.group:after { clear:both;}
+.group { zoom:1; /* For IE 6/7 */ }
+
+/*  GRID OF FOUR  */
+.span_4_of_4 {
+  width: 97%;
+}
+.span_3_of_4 {
+  width: 72%;
+}
+.span_2_of_4 {
+  width: 67%;
+}
+.span_1_of_4 {
+  width: 12%;
+}
+
+.push {
+  visibility: hidden;
+}
+
+/*  GO FULL WIDTH BELOW 750 PIXELS */
+@media only screen and (max-width: 750px) {
+  .col {  margin: 2% 1% 2% 1%; }
+  .span_1_of_4, .span_2_of_4, .span_3_of_4, .span_4_of_4 { width: 100%; }
+  .push { display: none; }
+}
+
+.mat-typography p {
+  margin: 1em 0 1em 0 ;
+}
+
+.snack-bar {
+  background-color: #ff1744 ;
+  margin-bottom: 20em ;
+}

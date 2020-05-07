@@ -1,1 +1,78 @@
-<p></p>
+<h1>{{this.entite.codeEntite + ' - ' + this.entite.libelle}}</h1>
+
+<div class="section group">
+
+  <div class="push col span_1_of_4 "></div>
+
+  <div class="col span_2_of_4">
+    <div class="col effet libelle">
+      <p>Code Entité: {{entite.codeEntite}}</p>
+      <p>Libellé: {{entite.libelle}}</p>
+      <p>Métier: {{entite.metier.nomMetier}}</p>
+      <p *ngIf="!verifieSite()">Site: {{entite.site.codeSite + ' - ' + entite.site.nomSite}}</p>
+      <p *ngIf="verifieSite()">Site: {{verifieSite()}}</p>
+
+      <p *ngIf="entite.entiteMere.codeEntite !== entiteTechnique">
+        Entité Mère: <a (click)="ouvreEntiteMere(entite.entiteMere.codeEntite)">
+        {{entite.entiteMere.codeEntite + ' - ' + entite.entiteMere.libelle}}
+      </a>
+      </p>
+
+      <p *ngIf="entite.entiteMere.codeEntite === entiteTechnique">Entité Mère: - </p>
+    </div>
+
+
+    <div class="col effet adresse">
+      <p>Adresse physique :</p>
+      <p>Numéro et voie : {{entite.voiePhysique}}</p>
+      <p>CP et ville : {{entite.cpPhysique + ' ' + entite.villePhysique.nomVille}}</p>
+    </div>
+
+
+    <div class="col effet libelle">
+      <p>Indicateur RH : {{initBoolean(entite.rh)}}</p>
+      <p id="spécialP">Indicateur Comptable : {{initBoolean(entite.comptable)}}</p>
+      <span><p>Activité(s) - ({{entite.activites?.length}}) :  </p><ul><li
+        *ngFor=" let a of entite.activites">{{a.nomActivite}}</li></ul></span>
+
+
+      <!--<select>
+        <option *ngFor=" let a of entite.activites">{{a.nomActivite}}</option>
+      </select>-->
+    </div>
+
+    <!-- l'adress postale -->
+
+    <div *ngIf="entite.villePostale" class="col effet adresse">
+      <p>Adresse postale :</p>
+      <p>Numéro et voie : {{entite.voiePostale}}</p>
+      <p>CP et ville : {{entite.cpPostale + ' ' + entite.villePostale.nomVille}}</p>
+    </div>
+
+
+    <div *ngIf="!entite.villePostale" class="col effet adresse">
+      <p>Adresse postale :</p>
+      <p>Pas d’adresse postale renseignée.</p>
+    </div>
+
+
+    <div class="col effet historique">
+      <p>Historique des opérations :</p>
+      <p>Date de création : {{entite.historiques[0].date.toString().split(" ")[0]}}</p>
+      <p>Date de modification : {{initDateHistorique(modification, msgDeModification)}} </p>
+      <p *ngIf="initDateHistorique(desactivation) && active === false">Date de désactivation
+        : {{initDateHistorique(desactivation)}}</p>
+      <p *ngIf="initDateHistorique(reactivation) && active === true">Date de réactivation
+        : {{initDateHistorique(reactivation)}}</p>
+    </div>
+
+    <div id="divBouton">
+      <button id="retour" mat-raised-button color="primary" [routerLink]="['/accueil']">Retour</button>
+    </div>
+  </div>
+
+  <div class="push col span_1_of_4"></div>
+
+</div>
+
+<!--<pre *ngIf="entite">{{entite | json}}</pre>-->

@@ -23,7 +23,9 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
+            "styles": [ {
+              "input": "src/mon-theme.scss"
+            },
               "src/styles.css"
             ],
             "scripts": []

@@ -1,5 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {RechercheForm} from "./models/RechercheForm";
+import {Entite} from "./models/Entite";
 
 
 
@@ -10,14 +13,16 @@ export class RechercheService {
 
   private baseUrl = " http://localhost:8080/";
 
-
   constructor(private http: HttpClient) {
   }
 
-  rechercheAvecCodeEntite(code) {
-   // this.http.get(`${this.baseUrl}entite?id=${code}`).subscribe((data) => {console.log(data);});
-  return  this.http.get(`${this.baseUrl}entite?id=${code}`);
+
+  rechercheAvecCodeEntite(code) : Observable<Entite>  {
+    return this.http.get<Entite>(`${this.baseUrl}entite/unique?id=${code}`);
   }
 
+  rechercheMultiCritere(form : RechercheForm) :Observable<any> {
+    return this.http.post<RechercheForm>(this.baseUrl + 'entite/multi', form );
+  }
 
 }

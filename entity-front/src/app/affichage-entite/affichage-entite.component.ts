@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Entite} from "../models/Entite";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {RechercheService} from "../recherche.service";
+import {switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-affichage-entite',
@@ -7,9 +11,79 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AffichageEntiteComponent implements OnInit {
 
-  constructor() { }
+  entite: Entite;
+  active : boolean;
+
+  entiteTechnique = 'AA0000';
+  desactivation = 'D';
+  reactivation = 'R';
+  modification = 'M';
+  msgDeModification = 'Aucune modification n’a été apportée ';
+
+
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private rs: RechercheService) {
+  }
 
   ngOnInit(): void {
+
+    this.route.paramMap.pipe(switchMap((params: ParamMap) =>
+      this.rs.rechercheAvecCodeEntite(params.get('codeEntite'))))
+      .subscribe((data: Entite) => {
+        this.entite = data;
+      }, error => {
+        this.router.navigateByUrl(`/accueil`);
+    });
+
+  }
+
+  initDateHistorique(crt: string, msg?: string) {
+
+    let historiqueList = this.entite.historiques.filter(historique => historique.operation === crt);
+    this.active = null;
+
+    if (historiqueList.length === 0) {
+      if (msg) {
+        return msg
+      } else {
+        return false
+      }
+    } else if (crt === this.desactivation ||crt === this.reactivation) {
+      let historiqueListActive = this.entite.historiques.filter
+      (historique => historique.operation === this.desactivation || historique.operation === this.reactivation);
+      let operationFinale = historiqueListActive[historiqueListActive.length - 1].operation;
+        if (operationFinale === this.desactivation) {
+          this.active = false;
+          return historiqueListActive[historiqueListActive.length - 1].date;
+        } else if (operationFinale === this.reactivation) {
+          this.active = true;
+          return historiqueListActive[historiqueListActive.length - 1].date;
+      }
+    } else if (historiqueList.length === 1) {
+      return historiqueList[0].date;
+    } else {
+      return historiqueList[historiqueList.length - 1].date;
+    }
+  }
+
+  verifieSite() {
+    if (!this.entite.site) {
+      return 'Aucun';
+    }
+  }
+
+  initBoolean(bool: boolean) {
+    if (bool === true) {
+      return 'oui';
+    } else {
+      return 'non';
+    }
+
+  }
+
+  ouvreEntiteMere(code) {
+    this.router.navigateByUrl(`/entite/${code}`);
   }
 
 }

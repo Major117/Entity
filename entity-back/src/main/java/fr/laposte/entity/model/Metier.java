@@ -2,7 +2,6 @@ package fr.laposte.entity.model;
 
 
 import javax.persistence.*;
-import javax.persistence.criteria.Expression;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -20,6 +19,7 @@ public class Metier {
     @NotNull
     @Column ( name = "NOM_METIER", length = 50)
     private String nomMetier;
+
 
     public int getCodeMetier() {
         return codeMetier;

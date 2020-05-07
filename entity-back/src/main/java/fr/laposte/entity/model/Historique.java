@@ -1,6 +1,9 @@
 package fr.laposte.entity.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,11 +15,12 @@ public class Historique {
     public Historique() {
     }
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column ( name = "ID_HISTORIQUE")
     private int idHistorique;
 
     @Column ( name = "DATE")
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime date;
 
     @Column ( name = "OPERATION", length = 1)
@@ -30,6 +34,11 @@ public class Historique {
 
     @Column ( name = "NOM", length = 50)
     private String nom;
+
+    @ManyToOne(fetch = FetchType.LAZY )
+    @JoinColumn(name = "CODE_ENTITE")
+    @JsonIgnore
+    private Entite codeEntite;
 
 
     public int getIdHistorique() {
@@ -78,6 +87,14 @@ public class Historique {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public Entite getCodeEntite() {
+        return codeEntite;
+    }
+
+    public void setCodeEntite(Entite codeEntite) {
+        this.codeEntite = codeEntite;
     }
 
     @Override

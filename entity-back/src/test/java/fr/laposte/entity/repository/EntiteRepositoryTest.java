@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,9 +67,9 @@ public class EntiteRepositoryTest {
         assertEquals("16500", entiteTest.getCpPhysique());
         assertEquals("le mas félix", entiteTest.getVoiePostale());
         assertEquals("16500", entiteTest.getCpPostale());
-        assertEquals(16, entiteTest.getSite().getCodeSite());
+        assertEquals("16", entiteTest.getSite().getCodeSite());
         assertEquals("Confolens", entiteTest.getSite().getNomSite());
-        assertEquals("courrier", entiteTest.getMetier().getNomMetier());
+        assertEquals("Courrier", entiteTest.getMetier().getNomMetier());
         assertEquals("PA2759", entiteTest.getEntiteMere().getCodeEntite());
         assertEquals("Siège social", entiteTest.getEntiteMere().getLibelle());
         assertEquals("Confolens", entiteTest.getVillePhysique().getNomVille());
@@ -118,18 +120,79 @@ public class EntiteRepositoryTest {
     }
 
     @Test
+    void testRechercheMultiCritereLibelle() {
+
+        List<Entite> testRecherche = entiteRepository.findByCriteria("Conf",0,0, null,null, null, 0,100);
+        assertEquals(1, testRecherche.size());
+    }
+
+    @Test
+    void testRechercheMultiCritereMetier() {
+
+        List<Entite> testRecherche = entiteRepository.findByCriteria(null,1,0, null,null, null, 0,100);
+        assertEquals(1, testRecherche.size());
+    }
+
+    @Test
+    void testRechercheMultiCritereVille() {
+
+        List<Entite> testRecherche = entiteRepository.findByCriteria(null,0,1, null,null, null, 0,100);
+        assertEquals(1, testRecherche.size());
+    }
+
+    @Test
+    void testRechercheMultiCritereRh() {
+
+        List<Entite> testRecherche = entiteRepository.findByCriteria(null,0,0, null,true, null, 0,100);
+        assertEquals(4, testRecherche.size());
+    }
+
+    @Test
+    void testRechercheMultiCritereActive() {
+
+        List<Entite> testRecherche = entiteRepository.findByCriteria(null,0,0, true,null, null, 0,100);
+        assertEquals(4, testRecherche.size());
+    }
+
+    @Test
     /**
      *
      */
-    void testRechercheMultiCritere() {
-        Metier metier = metierRepository.findById(3).get();
-        Ville ville = villeRepository.findById(1).get();
-        Activite activite = activiteRepository.findById(3).get();
+    void testRechercheMultiCritereDate() {
 
-        List<Entite> testRecherche = entiteRepository.findByCriteria("Pag",metier,ville,null, activite);
-         assertEquals(1, testRecherche.size());
+        String str = "2015-01-01 00:00";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime date = LocalDateTime.parse(str, formatter);
 
+        List<Entite> testRecherche = entiteRepository.findByCriteria(null,0,0, null,null, date, 0,100);
+         assertEquals(4, testRecherche.size());
     }
+
+    @Test
+    void testRechercheMultiCritereActivite() {
+
+        List<Entite> testRecherche = entiteRepository.findByCriteria(null,0,0, null,null, null, 1,100);
+        assertEquals(2, testRecherche.size());
+    }
+
+    @Test
+    void testRechercheMultiCritereRempli() {
+        String str = "2016-01-22 13:37";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime date = LocalDateTime.parse(str, formatter);
+
+        List<Entite> testRecherche = entiteRepository.findByCriteria("Conf",1,2, true,true, date, 4,100);
+        assertEquals(1, testRecherche.size());
+    }
+
+    @Test
+    void testRechercheMultiCritereEntiteTechnique() {
+
+        List<Entite> testRecherche = entiteRepository.findByCriteria("ENTTITE Technique",0,0, null,false, null, 0,100);
+        assertEquals(0, testRecherche.size());
+    }
+
+
 
 
 }

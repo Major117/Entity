@@ -1,0 +1,113 @@
+<h1>Création Entité</h1>
+
+<div>
+  <form [formGroup]="creationForm" (ngSubmit)="creationEntite()">
+
+    <mat-form-field id="libelle">
+      <mat-label>Libelle :</mat-label>
+      <input matInput type="text" name="libelle" placeholder="min 3 caractère" formControlName="libelle" required
+             minlength="3" maxlength="50">
+    </mat-form-field>
+    <br>
+    <mat-form-field [ngStyle]="{color: entiteMereStyle()}" id="entite-mere">
+      <mat-label [ngStyle]="{color: entiteMereStyle()}">Entité mère (code) :</mat-label>
+      <input matInput name="code entité mere" placeholder="Ex: AB1234" formControlName="entiteMere"
+             (input)="verifieEntiteMere($event.target.value)" required minlength="6" maxlength="6">
+    </mat-form-field>
+    <br>
+    <mat-form-field id="metier">
+      <mat-label>Metier :</mat-label>
+      <mat-select formControlName="metier" required>
+        <mat-option *ngFor="let m of metier" [value]="m.codeMetier">{{m.nomMetier}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <div>
+      <p>adresse physique :*</p>
+
+      <mat-form-field class="voie">
+        <mat-label>Voie :</mat-label>
+        <input matInput type="text" name="voie postal" placeholder="" formControlName="voieAdressePhysique" required
+               minlength="5" maxLength="50">
+      </mat-form-field>
+      <br>
+      <mat-form-field class="cp">
+        <mat-label>Code postal :</mat-label>
+        <input matInput type="text" name="" placeholder="" formControlName="cpAdressePhysique" required minlength="5"
+               maxLength="5">
+      </mat-form-field>
+
+      <mat-form-field class="ville">
+        <mat-label>Ville :</mat-label>
+        <mat-select formControlName="villePhysique" (valueChange)="initSite($event)" required>
+          <mat-option *ngFor="let v of ville" [value]="v.idVille">{{v.nomVille}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+    <br>
+    <div>
+      <p>adresse postale :</p>
+
+      <mat-form-field class="voie">
+        <mat-label>Voie :</mat-label>
+        <input matInput type="text" name="" placeholder="" formControlName="voieAdressePostal" minlength="5"
+               maxLength="50">
+      </mat-form-field>
+      <br>
+      <mat-form-field class="cp">
+        <mat-label>Code postal :</mat-label>
+        <input matInput type="text" name="" placeholder="" formControlName="cpAdressePostal" minlength="5"
+               maxLength="5">
+      </mat-form-field>
+
+      <mat-form-field class="ville">
+        <mat-label>Ville :</mat-label>
+        <mat-select formControlName="villePostal">
+          <mat-option  [value]="null">Aucune</mat-option>
+          <mat-option *ngFor="let v of ville" [value]="v.idVille">{{v.nomVille}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <br>
+    <mat-form-field id="site">
+      <mat-label>Site :</mat-label>
+      <mat-select formControlName="site" placeholder="veuillez selectionnez une ville ">
+        <mat-option *ngIf="isSite === false" [value]="null">Aucun site dans cette ville</mat-option>
+        <mat-option *ngIf="isSite === true || isSite === null" [value]="null">Aucun</mat-option>
+        <mat-option *ngFor="let s of site" [value]="s.idSite">{{s.codeSite +' - '+ s.nomSite}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+
+  <div class="radio">
+    <div class="rh">
+      <label class="bool">Rh :</label>
+      <mat-radio-group formControlName="rh">
+        <mat-radio-button value=true>Oui</mat-radio-button>
+        <mat-radio-button value=false>Non</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="compt">
+      <label class="bool">Comptable :</label>
+      <mat-radio-group formControlName="comptable">
+        <mat-radio-button value=true>Oui</mat-radio-button>
+        <mat-radio-button value=false>Non</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+
+    <br>
+    <mat-form-field id="activite">
+      <mat-label>Activité :</mat-label>
+      <mat-select formControlName="activite" multiple>
+        <mat-option *ngFor="let a of activite" [value]="a.idActivite">{{a.nomActivite}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <p>Les champs indiqués par une * sont obligatoires</p>
+    <button [disabled]="reponse != true || creationForm.invalid "  mat-raised-button color="primary" type="submit">Valider</button>
+    <button mat-raised-button color="accent" (click)="reinitialiser()" type="button">Réinitialiser</button>
+  </form>
+</div>
+

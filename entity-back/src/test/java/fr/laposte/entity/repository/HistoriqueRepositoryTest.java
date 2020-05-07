@@ -39,4 +39,13 @@ public class HistoriqueRepositoryTest {
         assertEquals("Florian", historiqueTest.getPrenom());
 
     }
+
+
+    @Test
+    void testEntiteActive() {
+       String codeEntite = "AB1337";
+       String codeEntite2 = "CA5458";
+        assertEquals("AB1337", historiqueRepository.entiteActive(codeEntite));
+        assertNull(historiqueRepository.entiteActive(codeEntite2));
+    }
 }

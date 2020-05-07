@@ -1,9 +1,8 @@
 package fr.laposte.entity.model;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -86,6 +85,7 @@ public class Entite {
 
     @OneToOne (fetch = FetchType.LAZY )
     @JoinColumn (name = "CODE_ENTITE_MERE")
+    @JsonIgnoreProperties("entiteMere")
     private Entite entiteMere;
 
     @ManyToMany ( fetch = FetchType.EAGER)
@@ -96,9 +96,10 @@ public class Entite {
             joinColumns =  @JoinColumn(name = "CODE_ENTITE"))
     private Collection<Activite> activites;
 
-    @OneToMany (cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.EAGER)
+    @OneToMany (cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.EAGER)  //TODO
     @Fetch( FetchMode.SUBSELECT)
     @JoinColumn(name = "CODE_ENTITE")
+    @OrderBy ("date ASC")
     private Collection<Historique> historiques;
 
 

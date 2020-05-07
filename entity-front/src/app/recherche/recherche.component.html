@@ -1,12 +1,87 @@
 <h1>Recherche d'entités</h1>
 
-<div>
-  <form [formGroup]="rechercheForm" (ngSubmit)="rechercheParCodeEntite()">
-    <label>Code entité : </label>
-    <input type="text" name="codeEntite" formControlName="codeEntite">
-    <button type="submit">Rechercher</button>
+
+<div class="formulaire">
+  <form [formGroup]="rechercheForm" (ngSubmit)="envoyeFormulaire() ">
+
+    <mat-form-field>
+      <mat-label>Code entité :</mat-label>
+      <input matInput name="code entité" placeholder="Ex: AB1234" formControlName="codeEntite">
+    </mat-form-field>
+
+    <p>Ou</p>
+
+    <mat-form-field>
+      <mat-label>Libelle :</mat-label>
+      <input matInput type="text" name="libelle" placeholder="min 3 caractère" formControlName="libelle">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field>
+      <mat-label>Metier :</mat-label>
+      <mat-select formControlName="metier">
+        <mat-option value=""></mat-option>
+        <mat-option *ngFor="let m of metier" [value]="m.codeMetier">{{m.nomMetier}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Ville :</mat-label>
+      <mat-select formControlName="ville">
+        <mat-option value=""></mat-option>
+        <mat-option *ngFor="let v of ville" [value]="v.idVille">{{v.nomVille}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+
+    <div>
+      <label class="bool">Rh :</label>
+      <mat-radio-group formControlName="rh">
+        <mat-radio-button value=true>Oui</mat-radio-button>
+        <mat-radio-button value=false>Non</mat-radio-button>
+        <mat-radio-button value=null checked>Indifférent</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <br>
+    <div>
+      <label class="bool">Active :</label>
+      <mat-radio-group formControlName="active">
+        <mat-radio-button value=true>Oui</mat-radio-button>
+        <mat-radio-button value=false>Non</mat-radio-button>
+        <mat-radio-button value=null checked>Indifférent</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <br>
+
+    <mat-form-field>
+      <mat-label>Date de création :</mat-label>
+      <input matInput [matDatepicker]="dp" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp></mat-datepicker>
+    </mat-form-field>
+
+
+    <!--  <label for="date">Date de création : </label>
+      <input type="date" id="date" name="date" value="" formControlName="date">-->
+
+    <br>
+
+    <mat-form-field>
+      <mat-label>Activité :</mat-label>
+      <mat-select formControlName="activite">
+        <mat-option value=""></mat-option>
+        <mat-option *ngFor="let a of activite" [value]="a.idActivite">{{a.nomActivite}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" type="submit">Rechercher</button>
+    <button mat-raised-button color="accent" type="button" (click)="reinitialiser()">Réinitialiser</button>
   </form>
 </div>
-<pre *ngIf="entite !== null">{{entite | json}}</pre>
-<p>{{messageError}}</p>
-<app-affichage-entite></app-affichage-entite>
+
+
+
+<app-resultat-entite *ngIf="this.listEntite?.length > 1" [listEntite]="listEntite"></app-resultat-entite>
