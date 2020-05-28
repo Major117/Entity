@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Entite} from "../models/Entite";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {RechercheService} from "../recherche.service";
+import {RechercheService} from "../services/recherche.service";
 import {switchMap} from "rxjs/operators";
+import {TokenStorageService} from "../services/token-storage.service";
 
 @Component({
   selector: 'app-affichage-entite',
@@ -12,18 +13,19 @@ import {switchMap} from "rxjs/operators";
 export class AffichageEntiteComponent implements OnInit {
 
   entite: Entite;
-  active : boolean;
+  active: boolean;
 
   entiteTechnique = 'AA0000';
   desactivation = 'D';
   reactivation = 'R';
   modification = 'M';
-  msgDeModification = 'Aucune modification n’a été apportée ';
+  msgDeModification = 'Aucune modification n’a été apportée ';
 
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private rs: RechercheService) {
+              private rs: RechercheService,
+              public auth: TokenStorageService) {
   }
 
   ngOnInit(): void {
@@ -34,7 +36,7 @@ export class AffichageEntiteComponent implements OnInit {
         this.entite = data;
       }, error => {
         this.router.navigateByUrl(`/accueil`);
-    });
+      });
 
   }
 
@@ -49,21 +51,36 @@ export class AffichageEntiteComponent implements OnInit {
       } else {
         return false
       }
-    } else if (crt === this.desactivation ||crt === this.reactivation) {
+    } else if (crt === this.desactivation || crt === this.reactivation) {
       let historiqueListActive = this.entite.historiques.filter
       (historique => historique.operation === this.desactivation || historique.operation === this.reactivation);
       let operationFinale = historiqueListActive[historiqueListActive.length - 1].operation;
-        if (operationFinale === this.desactivation) {
-          this.active = false;
-          return historiqueListActive[historiqueListActive.length - 1].date;
-        } else if (operationFinale === this.reactivation) {
-          this.active = true;
-          return historiqueListActive[historiqueListActive.length - 1].date;
+      if (operationFinale === this.desactivation) {
+        this.active = false;
+        return historiqueListActive[historiqueListActive.length - 1].date;
+      } else if (operationFinale === this.reactivation) {
+        this.active = true;
+        return historiqueListActive[historiqueListActive.length - 1].date;
       }
     } else if (historiqueList.length === 1) {
       return historiqueList[0].date;
     } else {
       return historiqueList[historiqueList.length - 1].date;
+    }
+  }
+
+  historiqueGestionnaire(op: string) {
+
+    switch(op) {
+      case 'C' :
+        return 'Création';
+      case 'D' :
+        return 'Désactivation';
+      case  'M' :
+        return 'Modification';
+      case 'R' :
+        return 'Réactivation';
+
     }
   }
 
@@ -84,6 +101,18 @@ export class AffichageEntiteComponent implements OnInit {
 
   ouvreEntiteMere(code) {
     this.router.navigateByUrl(`/entite/${code}`);
+  }
+
+  ouvreLaModification(code) {
+    this.router.navigate(['/modification'], {queryParams: {code: code}})
+  }
+
+  isAdmin() {
+    if (this.auth.isLoggedIn()) {
+      return this.auth.getUser().roles == 'ROLE_Admin';
+    } else {
+      return false
+    }
   }
 
 }
