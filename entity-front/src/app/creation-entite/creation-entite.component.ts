@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {FormulaireService} from "../formulaire.service";
-import {EntiteService} from "../entite.service";
+import {FormulaireService} from "../services/formulaire.service";
+import {EntiteService} from "../services/entite.service";
 import {Metier} from "../models/Metier";
 import {Ville} from "../models/Ville";
 import {Activite} from "../models/Activite";
@@ -10,7 +10,7 @@ import {CreationForm} from "../models/creation-form";
 import {Entite} from "../models/Entite";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {element} from "protractor";
+import {TokenStorageService} from "../services/token-storage.service";
 
 
 @Component({
@@ -24,7 +24,7 @@ export class CreationEntiteComponent implements OnInit {
   newEntite: Entite;
   codeEntiteMere: string;
   messageError: string;
-  villePhysique: number;
+ // villePhysique: number;
   metier: Metier[];
   ville: Ville[];
   activite: Activite[];
@@ -32,8 +32,11 @@ export class CreationEntiteComponent implements OnInit {
   isSite: boolean ;
   reponse: boolean;
 
-  constructor(private fb: FormBuilder, private fs: FormulaireService, private es: EntiteService, private router: Router, private snackBar: MatSnackBar){
+  msg: string = 'Création réussie, vous allez être redirigé sur l\'entité créée.';
+
+  constructor(private fb: FormBuilder, private fs: FormulaireService, private es: EntiteService, private router: Router, private snackBar: MatSnackBar,private tokenStorage: TokenStorageService){
   }
+
 
   ngOnInit(): void {
 
@@ -43,7 +46,7 @@ export class CreationEntiteComponent implements OnInit {
         },
         error => {
           this.messageError = error.error.message;
-          this.openSnackBar(this.messageError);
+          this.snackBarError(this.messageError);
         });
 
     this.fs.chargeLesVilles()
@@ -52,9 +55,9 @@ export class CreationEntiteComponent implements OnInit {
           this.isSite = true;
         },
         error => {
-          this.messageError = error.error.message
+          this.messageError = error.error.message;
           this.isSite = false;
-          this.openSnackBar(this.messageError);
+          this.snackBarError(this.messageError);
         });
 
     this.fs.chargeLesActivites()
@@ -63,7 +66,7 @@ export class CreationEntiteComponent implements OnInit {
         },
         error => {
           this.messageError = error.error.message;
-          this.openSnackBar(this.messageError);
+          this.snackBarError(this.messageError);
         });
 
 
@@ -90,7 +93,7 @@ export class CreationEntiteComponent implements OnInit {
       },
       error => {
         this.messageError = error.error.message;
-        this.openSnackBar(this.messageError);
+        this.snackBarError(this.messageError);
       }, () => {
         this.isSite = this.site.length != 0;
       }
@@ -109,7 +112,7 @@ export class CreationEntiteComponent implements OnInit {
         },
         error => {
           this.messageError = error.error.message;
-          this.openSnackBar(this.messageError);
+          this.snackBarError(this.messageError);
         });
     }
   }
@@ -141,15 +144,16 @@ export class CreationEntiteComponent implements OnInit {
     );
     this.es.creationEntite(newForm).subscribe((data: Entite) => {
         this.newEntite = data;
+        this.snackBarOk(this.msg);
         setTimeout(
           () => {
             this.router.navigateByUrl(`/entite/${this.newEntite.codeEntite}`);
-          }, 2000
+          }, 2200
         );
       },
       error => {
-        this.messageError = error.error.message
-        this.openSnackBar(this.messageError);
+        this.messageError = error.error.message;
+        this.snackBarError(this.messageError);
       });
   }
 
@@ -169,12 +173,21 @@ export class CreationEntiteComponent implements OnInit {
     this.creationForm.get('activite').setValue(null);
     this.site = null;
     this.messageError = null;
+
   }
 
-  openSnackBar(message: string) {
+  snackBarOk(message: string) {
+
     this.snackBar.open(message ,null,{
-      duration: 2500,
-      panelClass: ['snack-bar']
+      duration: 2200,
+      panelClass: ['snack-bar-ok']
+    });
+  }
+
+  snackBarError(message: string) {
+    this.snackBar.open(message ,null,{
+      duration: 4000,
+      panelClass: ['snack-bar-error']
     });
 
   }

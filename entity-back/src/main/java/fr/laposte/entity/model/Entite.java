@@ -3,6 +3,8 @@ package fr.laposte.entity.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -89,15 +91,15 @@ public class Entite {
     private Entite entiteMere;
 
     @ManyToMany ( fetch = FetchType.EAGER)
-    @Fetch( FetchMode.SUBSELECT)
+    @Fetch( FetchMode.SUBSELECT)  //TODO cascade type detach
     @JoinTable(
             name = "FR_ENTITE_ACTIVITE",
             inverseJoinColumns =  @JoinColumn(name = "ID_ACTIVITE") ,
             joinColumns =  @JoinColumn(name = "CODE_ENTITE"))
     private Collection<Activite> activites;
 
-    @OneToMany (cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.EAGER)  //TODO
-    @Fetch( FetchMode.SUBSELECT)
+    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER )  //TODO
+    @Fetch(FetchMode.SUBSELECT)
     @JoinColumn(name = "CODE_ENTITE")
     @OrderBy ("date ASC")
     private Collection<Historique> historiques;
@@ -238,10 +240,33 @@ public class Entite {
                 ", site=" + site +
                 ", villePhysique=" + villePhysique +
                 ", villePostale=" + villePostale +
-                ", entiteMere=" + entiteMere +
+                ", entiteMere=" + getEntiteMere().getCodeEntite() +
                 ", activites=" + activites +
-                ", historiques=" + historiques +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Entite entite = (Entite) o;
+
+        if (rh != entite.rh) return false;
+        if (comptable != entite.comptable) return false;
+        if (!codeEntite.equals(entite.codeEntite)) return false;
+        if (!libelle.equals(entite.libelle)) return false;
+        if (!voiePhysique.equals(entite.voiePhysique)) return false;
+        if (!cpPhysique.equals(entite.cpPhysique)) return false;
+        if (voiePostale != null ? !voiePostale.equals(entite.voiePostale) : entite.voiePostale != null) return false;
+        if (cpPostale != null ? !cpPostale.equals(entite.cpPostale) : entite.cpPostale != null) return false;
+        if (!metier.equals(entite.metier)) return false;
+        if (site != null ? !site.equals(entite.site) : entite.site != null) return false;
+        if (!villePhysique.equals(entite.villePhysique)) return false;
+        if (villePostale != null ? !villePostale.equals(entite.villePostale) : entite.villePostale != null)
+            return false;
+        if (!entiteMere.codeEntite.equals(entite.entiteMere.codeEntite)) return false;
+        return activites != null ? activites.equals(entite.activites) : entite.activites == null;
     }
 }
 

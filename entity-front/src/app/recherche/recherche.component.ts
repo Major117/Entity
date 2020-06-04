@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {RechercheService} from "../recherche.service";
+import {RechercheService} from "../services/recherche.service";
 import {RechercheForm} from "../models/RechercheForm";
 import {Metier} from "../models/Metier";
 import {Ville} from "../models/Ville";
 import {Activite} from "../models/Activite";
 import {Router} from "@angular/router";
 import {Entite} from "../models/Entite";
-import {FormulaireService} from "../formulaire.service";
+import {FormulaireService} from "../services/formulaire.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 
@@ -28,7 +28,11 @@ export class RechercheComponent implements OnInit {
   activite: Activite[];
 
 
-  constructor(private fb: FormBuilder, private fs: FormulaireService , private rs: RechercheService, private router: Router, private snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder,
+              private fs: FormulaireService ,
+              private rs: RechercheService,
+              private router: Router,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -39,7 +43,7 @@ export class RechercheComponent implements OnInit {
         },
         error => {
           this.messageError = error.error.message;
-          this.openSnackBar(this.messageError);
+          this.snackBarError(this.messageError);
         });
 
     this.fs.chargeLesVilles()
@@ -48,7 +52,7 @@ export class RechercheComponent implements OnInit {
         },
         error => {
           this.messageError = error.error.message;
-          this.openSnackBar(this.messageError);
+          this.snackBarError(this.messageError);
         });
 
     this.fs.chargeLesActivites()
@@ -57,7 +61,7 @@ export class RechercheComponent implements OnInit {
         },
         error => {
           this.messageError = error.error.message;
-          this.openSnackBar(this.messageError);
+          this.snackBarError(this.messageError);
         });
 
 
@@ -88,7 +92,7 @@ export class RechercheComponent implements OnInit {
       .subscribe(data => { this.entite = data;
         this.router.navigateByUrl(`/entite/${this.entite.codeEntite}`)},
         error => {this.messageError = error.error.message;
-                        this.openSnackBar(this.messageError);  });
+                        this.snackBarError(this.messageError);  });
 
   }
 
@@ -119,11 +123,12 @@ export class RechercheComponent implements OnInit {
               "Le résultat de la recherche contient plus de 100 entités, " +
               "seules les 100 premières sont présentées." +
               " Merci d’affiner vos critères de recherche.";
+            this.snackBarError(this.messageError);
           }
         },
         error => {
           this.messageError = error.error.message;
-          this.openSnackBar(this.messageError);
+          this.snackBarError(this.messageError);
         })
 
 
@@ -155,10 +160,10 @@ export class RechercheComponent implements OnInit {
     }
   }
 
-  openSnackBar(message: string) {
+  snackBarError(message: string) {
     this.snackBar.open(message, null, {
-      duration: 2500,
-      panelClass: ['snack-bar']
+      duration: 4000,
+      panelClass: ['snack-bar-error']
     });
   }
 }

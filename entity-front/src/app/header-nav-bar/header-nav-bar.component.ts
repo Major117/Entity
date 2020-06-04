@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {HasElementRef} from "@angular/material/core/common-behaviors/color";
+import {TokenStorageService} from "../services/token-storage.service";
 
 
 @Component({
@@ -14,9 +15,11 @@ export class HeaderNavBarComponent implements OnInit, AfterViewInit {
   sticky: boolean = false;
   menuPosition : any;
 
-  constructor() { }
+
+  constructor(public tokenStorage: TokenStorageService) { }
 
   ngOnInit() {
+
   }
 
   ngAfterViewInit() {
@@ -33,7 +36,5 @@ export class HeaderNavBarComponent implements OnInit, AfterViewInit {
       this.sticky = false;
     }
   }
-
-
 
 }

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Entite} from "../models/Entite";
-import {RechercheService} from "../recherche.service";
+import {RechercheService} from "../services/recherche.service";
 import {Router} from "@angular/router";
 
 @Component({

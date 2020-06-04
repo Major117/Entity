@@ -15,6 +15,6 @@ public class VilleService {
 
     public List<Ville> revoieToutesLesVilles(){
 
-        return  villeRepository.findAll();
+        return villeRepository.findAllByOrderByNomVilleAsc();
     }
 }

@@ -1,0 +1,42 @@
+<mat-card *ngIf="!isLoggedIn" class="connexion" >
+  <mat-card-header >
+    <mat-card-title ><h1>Connexion <mat-icon>account_circle</mat-icon></h1></mat-card-title>
+  </mat-card-header>
+  <form (ngSubmit)="f.form.valid && onSubmit()"
+        name="form"
+        #f="ngForm"
+        novalidate>
+  <mat-card-content>
+
+    <mat-form-field appearance="outline" class="form-login" >
+      <mat-label for="log"> login</mat-label>
+      <input matInput  type="text" name="log"
+             [(ngModel)]="form.log"
+             required
+             #log="ngModel"
+             >
+    </mat-form-field>
+
+    <div *ngIf="f.submitted && log.invalid">
+      Le login est obligatoire!
+    </div>
+<br>
+    <mat-form-field appearance="outline" class="form-login">
+      <mat-label for="password">mot de passe</mat-label>
+      <input matInput type="password"
+             [(ngModel)]="form.password"
+             required
+             name="password"
+             minlength="6"
+             #password="ngModel">
+    </mat-form-field>
+      <div *ngIf="f.submitted && log.invalid">Le mot de passe est obligatoire!</div>
+      <div *ngIf="password.errors?.minlength">
+        Le mot de passe doit faire min 6 caractère.
+      </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button [disabled]="f.invalid" mat-raised-button color="primary" type="submit">Se connecter</button>
+  </mat-card-actions>
+  </form>
+</mat-card>

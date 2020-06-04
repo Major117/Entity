@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -150,25 +151,17 @@ public class EntiteServiceTest {
     }
 
     @Test
-    void testCodeEntiMereDesactive() throws Exception {
+    void testCodeEntiMereDesactive() {
         Exception exception = assertThrows(Exception.class, () -> {
             entiteService.isCodeEntiteValideActive("CA5458");
         });
         assertEquals("Code entité inactive", exception.getMessage());
     }
 
-    @Test
-    void creerUneEntite() throws Exception {
-        Metier metier = metierRepository.findById(1).get();
-        Ville ville = villeRepository.findById(2).get();
-        Site site = siteRepository.findById(3).get();
-        Entite mere = entiteRepository.findById("AB1337").get();
-        Activite activite = activiteRepository.findById(2).get();
+   @Test
+    void deleteUneEntite() throws Exception {
 
+       entiteService.deleteEntite("PA2762");
 
-        CreationForm entiteTest = new CreationForm();
-
-        //TODO
-        entiteService.nouvelleEntite(entiteTest);
-    }
+   }
 }

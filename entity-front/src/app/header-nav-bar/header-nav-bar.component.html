@@ -8,13 +8,17 @@
 
 <mat-toolbar color="primary" [class.sticky]="sticky" #stickyMenu >
   <mat-toolbar-row>
-    <a mat-button routerLink="/accueil" routerLinkActive="active">accueil </a>
-    <a mat-button routerLink="/accueil" routerLinkActive="active">recherche</a>
-    <a mat-button routerLink="/creation" routerLinkActive="active">création</a>
-    <a mat-button>à propos</a>
+    <a  mat-button routerLink="/accueil" routerLinkActive="active"><mat-icon>home</mat-icon>accueil </a>
+    <a mat-button routerLink="/accueil" routerLinkActive="active"><mat-icon>search</mat-icon>recherche</a>
+    <a mat-button routerLink="/creation" routerLinkActive="active"><mat-icon>create</mat-icon>création</a>
+    <a mat-button ><mat-icon>description</mat-icon>à propos</a>
+
     <span class="example-spacer"></span>
-    <a mat-button>connexion</a>
+
+    <a *ngIf="!tokenStorage.isLoggedIn()" mat-button routerLink="/connexion" routerLinkActive="active"><mat-icon>person</mat-icon>connexion</a>
+    <button *ngIf="tokenStorage.isLoggedIn()" mat-button [matMenuTriggerFor]="menu"><mat-icon>person</mat-icon>{{tokenStorage.getUser().log}} - {{tokenStorage.getUser().prenom}}.{{tokenStorage.getUser().nom[0]}}</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="tokenStorage.signOut()"><mat-icon>power_settings_new</mat-icon>déconnexion</button>
+    </mat-menu>
   </mat-toolbar-row>
 </mat-toolbar>
-
-

@@ -2,14 +2,15 @@ package fr.laposte.entity.service;
 
 import fr.laposte.entity.model.*;
 import fr.laposte.entity.repository.*;
+import fr.laposte.entity.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -133,6 +134,7 @@ public class EntiteService {
 
         String finalNum;
         int compteur;
+        System.out.println(lastCode);
 
         if (num < 9999) {
            num++;
@@ -154,40 +156,31 @@ public class EntiteService {
        }
 
        newCodeEntite = first+two+finalNum;
-
         return newCodeEntite;
     }
 
+    public Entite entiteValide(CreationForm formControle) throws Exception {
 
-    public Entite nouvelleEntite (CreationForm form) throws Exception {
+        Entite entiteValide = new Entite();
 
-        Entite entiteEnvoye = new Entite();
         String msg = "";
-        String lastCode = entiteRepository.findLastCodeEntite();
-        String newCode ;
 
         String regex = "[a-zA-Z0-9_.()&@!?%:*€'àâäæçéèêëîïôœùûü -]*";
         Pattern pattern = Pattern.compile(regex);
 
-        entiteEnvoye.setRh(form.isRh()); // Rh
-        entiteEnvoye.setComptable(form.isComptable()); //Comptable
 
-        // Code Entite
-        if (!lastCode.equals("ZZ9999")) {                     //TODO mettre les controles dans une methode différente
-            newCode = genereUnCodeEntiteUnique(lastCode);
-          entiteEnvoye.setCodeEntite(newCode);
-        } else {
-            msg = "plus de code disponible !";
-            throw new Exception(msg);
-        }
+        // Rh
+        entiteValide.setRh(formControle.isRh());
+        //Comptable
+        entiteValide.setComptable(formControle.isComptable());
 
         // Libelle
-        if (form.getLibelle() != null ) {
-            String libelle = form.getLibelle();
+        if (formControle.getLibelle() != null ) {
+            String libelle = formControle.getLibelle();
             Matcher matcher = pattern.matcher(libelle);
             if (libelle.length() <= 50 && libelle.length() >= 3) {
                 if (matcher.matches()) {
-                    entiteEnvoye.setLibelle(libelle);
+                    entiteValide.setLibelle(libelle);
                 } else {
                     msg = "Seuls les caractères alphanumériques accentués sont autorisés et les caractères spéciaux suivant : () - & + @ !? * . % : € <espace> et <apostrophe>";
                     throw new Exception(msg);
@@ -202,10 +195,10 @@ public class EntiteService {
         }
 
         // Voie Physique de l'adresse physique
-        if (form.getVoieAdressePhysique() != null) {
-            String voiePhysique = form.getVoieAdressePhysique();
+        if (formControle.getVoieAdressePhysique() != null) {
+            String voiePhysique = formControle.getVoieAdressePhysique();
             if (voiePhysique.length() <= 50 && voiePhysique.length() >= 5) {
-                entiteEnvoye.setVoiePhysique(voiePhysique);
+                entiteValide.setVoiePhysique(voiePhysique);
             } else {
                 msg = "La voie Physique doit contenir 5 caractères minimun et 50 maximun.";
                 throw new Exception(msg);
@@ -216,10 +209,10 @@ public class EntiteService {
         }
 
         //Code Postale Physique de l'adresse physique
-        if (form.getCpAdressePhysique() != null) {
-            String cpPhysique = form.getCpAdressePhysique();
+        if (formControle.getCpAdressePhysique() != null && !formControle.getCpAdressePhysique().isEmpty()) {
+            String cpPhysique = formControle.getCpAdressePhysique();
             if (cpPhysique.length() == 5) {
-                entiteEnvoye.setCpPhysique(cpPhysique);
+                entiteValide.setCpPhysique(cpPhysique);
             } else {
                 msg = "Le code postal Physique doit contenir 5 caractères";
                 throw new Exception(msg);
@@ -230,99 +223,162 @@ public class EntiteService {
         }
 
         //voie postale de l'adresse postale
-        if (form.getVoieAdressePostal() != null) {
-            if ( form.getVoieAdressePostal().length() <= 50 && form.getVoieAdressePostal().length() >= 5 ) {
-                entiteEnvoye.setVoiePostale(form.getVoieAdressePostal());
+        if (formControle.getVoieAdressePostal() != null && !formControle.getVoieAdressePostal().isEmpty()) {
+            if ( formControle.getVoieAdressePostal().length() <= 50 && formControle.getVoieAdressePostal().length() >= 5 ) {
+                entiteValide.setVoiePostale(formControle.getVoieAdressePostal());
             } else {
                 msg = "La voie Postale doit contenir 5 caractères minimun et 50 maximun";
                 throw new Exception(msg);
             }
         } else {
-            entiteEnvoye.setVoiePostale(null);
+            entiteValide.setVoiePostale(null);
         }
 
         //code postale de l'adresse postale
-        if (form.getCpAdressePostal() != null) {
-            if (form.getCpAdressePostal().length() == 5) {
-                entiteEnvoye.setCpPostale(form.getCpAdressePostal());
+        if (formControle.getCpAdressePostal() != null) {
+            if (formControle.getCpAdressePostal().length() == 5) {
+                entiteValide.setCpPostale(formControle.getCpAdressePostal());
             } else {
                 msg = "Le code postal de l'adresse postale doit contenir 5 caractères";
             }
         } else {
-            entiteEnvoye.setCpPostale(null);
+            entiteValide.setCpPostale(null);
         }
 
         //Metier
-        if (form.getMetier() != 0) {
-            Metier metier = metierRepository.findById(form.getMetier()).get();
-            entiteEnvoye.setMetier(metier);
+        if (formControle.getMetier() != 0) {
+            Metier metier = metierRepository.findById(formControle.getMetier()).get();
+            entiteValide.setMetier(metier);
         } else {
             msg= "Le métier est obligatoire";
             throw new Exception(msg);
         }
 
         //Site
-        if ( form.getSite() != 0) {
-            Site site = siteRepository.findById(form.getSite()).get();
-            entiteEnvoye.setSite(site);
+        if ( formControle.getSite() != 0) {
+            Site site = siteRepository.findById(formControle.getSite()).get();
+            entiteValide.setSite(site);
         }
 
         //Ville Physique
-        if (form.getVillePhysique() != 0) {
-            Ville villePhysique = villeRepository.findById(form.getVillePhysique()).get();
-            entiteEnvoye.setVillePhysique(villePhysique);
+        if (formControle.getVillePhysique() != 0) {
+            Ville villePhysique = villeRepository.findById(formControle.getVillePhysique()).get();
+            entiteValide.setVillePhysique(villePhysique);
         } else {
             msg= "La ville de l'adresse physique est obligatoire";
             throw new Exception(msg);
         }
 
         //Ville Postale
-        if (form.getVillePostal() != 0) {
-            Ville villePostal = villeRepository.findById(form.getVillePostal()).get();
-            entiteEnvoye.setVillePostale(villePostal);
+        if (formControle.getVillePostal() != 0) {
+            Ville villePostal = villeRepository.findById(formControle.getVillePostal()).get();
+            entiteValide.setVillePostale(villePostal);
         } else {
-            entiteEnvoye.setVillePostale(null);
+            entiteValide.setVillePostale(null);
         }
 
         //Entite Mere
-        if (form.getEntiteMere() != null) {
-           if (isCodeEntiteValideActive(form.getEntiteMere())) {
-              Entite entiteMere = entiteRepository.findById(form.getEntiteMere()).get();
-               entiteEnvoye.setEntiteMere(entiteMere);
-           }
+        if (formControle.getEntiteMere() != null) {
+            if (isCodeEntiteValideActive(formControle.getEntiteMere())) {
+                Entite entiteMere = entiteRepository.findById(formControle.getEntiteMere()).get();
+                entiteValide.setEntiteMere(entiteMere);
+            }
         } else {
             msg = "l'entité mère est obligatoire";
             throw new Exception(msg);
         }
 
         //Activité
-        List<Integer> activites = form.getActivite();
+        List<Integer> activites = formControle.getActivite();
         if (activites != null) {
             List<Activite> activiteList = activiteRepository.findAllById(activites);
-            entiteEnvoye.setActivites(activiteList);
+            entiteValide.setActivites(activiteList);
         } else {
-            entiteEnvoye.setActivites(null);
+            entiteValide.setActivites(null);
         }
 
+        return entiteValide;
+    }
+
+
+    public Entite nouvelleEntite (CreationForm form) throws Exception {
+
+        Entite entiteEnvoye = entiteValide(form);
+
+        String msg = "";
+        String lastCode = entiteRepository.findLastCodeEntite();
+        String newCode ;
+
+        // Code Entite
+        if (!lastCode.equals("ZZ9999")) {
+            newCode = genereUnCodeEntiteUnique(lastCode);
+            entiteEnvoye.setCodeEntite(newCode);
+        } else {
+            msg = "plus de code disponible !";
+            throw new Exception(msg);
+        }
 
         //Historique
         Historique historique = genereUnHistorique(entiteEnvoye, "C");
         Collection<Historique> historiqueCollection = new ArrayList<>();
         historiqueCollection.add(historique);
 
-         entiteEnvoye.setHistoriques(historiqueCollection);
+        entiteEnvoye.setHistoriques(historiqueCollection);
 
-       return entiteRepository.saveAndFlush(entiteEnvoye); //TODO Try catch
+       return entiteRepository.saveAndFlush(entiteEnvoye);
+    }
+
+
+    public Entite udpdateEntite (String code, CreationForm form) throws Exception {
+
+
+        Entite entiteModifie = entiteRepository.findById(code).get();
+
+        Entite entiteEnvoye = entiteValide(form);
+        entiteEnvoye.setCodeEntite(entiteModifie.getCodeEntite());
+
+        String msg = "";
+        System.out.println(entiteModifie.toString());
+        System.out.println(entiteEnvoye.toString());
+
+       if (entiteModifie.toString().equals(entiteEnvoye.toString())) {
+            msg = "Modification impossible, aucun changement n'a été effectué";
+            throw new Exception(msg);
+        }
+
+        Historique historique = genereUnHistorique(entiteEnvoye, "M");
+        Collection<Historique> historiqueCollection = entiteModifie.getHistoriques();
+        historiqueCollection.add(historique);
+        entiteEnvoye.setHistoriques(historiqueCollection);
+
+        return entiteRepository.save(entiteEnvoye);
+    }
+
+    public void deleteEntite (String code) throws Exception {
+
+        String msg = "";
+        List<String> entiteList = entiteRepository.findEntitesFilles(code);
+        String msgListEntite = String.valueOf(entiteList).substring(1, entiteList.toString().length() - 1) + " .";
+
+       if (entiteList.isEmpty()) {
+           historiqueRepository.removeHistoriques(code);
+           entiteRepository.removeEntiteByCodeEntite(code);
+       } else {
+           msg = "Vous ne pouvez pas supprimer cette Entité, car elle gère(s) : " + msgListEntite;
+           throw new Exception(msg);
+       }
 
     }
 
-    public Historique genereUnHistorique (Entite entite ,String operation) {  //TODO mettre dans une class Historique serice
+    public Historique genereUnHistorique (Entite entite ,String operation) {
         Historique historique = new Historique();
 
         LocalDateTime aujourdhui =  LocalDateTime.now();
-        String log = "CJG972";
-        String prenom = "Florian";
-        String nom = "Dupont";
+        UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String log = user.getLog();
+        String prenom = user.getPrenom();
+        String nom = user.getNom();
 
         historique.setCodeEntite(entite);
         historique.setDate(aujourdhui);

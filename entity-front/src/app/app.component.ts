@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Entity';
+  log = sessionStorage.getItem('log');
+  prenom= sessionStorage.getItem('prenom');
+  nom = sessionStorage.getItem('nom');
 }

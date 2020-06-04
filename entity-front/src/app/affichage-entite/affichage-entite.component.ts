@@ -4,6 +4,8 @@ import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {RechercheService} from "../services/recherche.service";
 import {switchMap} from "rxjs/operators";
 import {TokenStorageService} from "../services/token-storage.service";
+import {MatDialog} from "@angular/material/dialog";
+import {AffichageEntiteConfirmationComponent} from "./affichage-entite-confirmation/affichage-entite-confirmation.component";
 
 @Component({
   selector: 'app-affichage-entite',
@@ -20,12 +22,15 @@ export class AffichageEntiteComponent implements OnInit {
   reactivation = 'R';
   modification = 'M';
   msgDeModification = 'Aucune modification n’a été apportée ';
+  code: string;
+  operation: string;
 
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private rs: RechercheService,
-              public auth: TokenStorageService) {
+              public auth: TokenStorageService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -107,9 +112,21 @@ export class AffichageEntiteComponent implements OnInit {
     this.router.navigate(['/modification'], {queryParams: {code: code}})
   }
 
+  openDialog(): void {
+    let dialogRef = this.dialog.open(AffichageEntiteConfirmationComponent,{
+      width : '20em',
+      height: '20em',
+      data: { code: this.entite.codeEntite, operation: 'supprimer'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
   isAdmin() {
     if (this.auth.isLoggedIn()) {
-      return this.auth.getUser().roles == 'ROLE_Admin';
+      return this.auth.getUser().roles.toString() === 'ROLE_Admin';
     } else {
       return false
     }

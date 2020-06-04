@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {FormsModule} from "@angular/forms";
 import {RechercheComponent} from "./recherche/recherche.component";
-import { AffichageEntiteComponent } from './affichage-entite/affichage-entite.component';
+import { AffichageEntiteComponent} from './affichage-entite/affichage-entite.component';
 import { ResultatEntiteComponent } from './resultat-entite/resultat-entite.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatGridListModule} from "@angular/material/grid-list";
@@ -26,9 +26,18 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatIconModule} from "@angular/material/icon";
 import { FooterComponent } from './footer/footer.component';
-import {_MatMenuDirectivesModule} from "@angular/material/menu";
+import {_MatMenuDirectivesModule, MatMenuModule} from "@angular/material/menu";
 import { CreationEntiteComponent } from './creation-entite/creation-entite.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { ConnexionComponent } from './connexion/connexion.component';
+
+import { authInterceptorProviders} from "./helpers/auth.interceptor";
+import { ModificationEntiteComponent } from './modification-entite/modification-entite.component';
+import { AffichageEntiteConfirmationComponent } from './affichage-entite/affichage-entite-confirmation/affichage-entite-confirmation.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
+
 
 export const MY_FORMAT: MatDateFormats = {
   parse: {
@@ -51,7 +60,11 @@ export const MY_FORMAT: MatDateFormats = {
     HeaderNavBarComponent,
     FooterComponent,
     CreationEntiteComponent,
+    ConnexionComponent,
+    ModificationEntiteComponent,
+    AffichageEntiteConfirmationComponent,
   ],
+  entryComponents: [AffichageEntiteConfirmationComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -74,10 +87,15 @@ export const MY_FORMAT: MatDateFormats = {
     MatButtonToggleModule,
     MatIconModule,
     _MatMenuDirectivesModule,
+    MatMenuModule,
+    MatDialogModule,
+    MatSidenavModule,
+    MatListModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMAT },
+    authInterceptorProviders,
     ],
   bootstrap: [AppComponent]
 })

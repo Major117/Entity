@@ -16,6 +16,10 @@ h1 {
   margin-bottom: 5em;
 }
 
+.container-radio {
+  margin-top: 1em;
+}
+
 .mat-radio-button ~ .mat-radio-button {
   margin-left: 16px;
 }

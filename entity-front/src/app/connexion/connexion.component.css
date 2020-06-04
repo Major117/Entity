@@ -1,0 +1,20 @@
+.connexion {
+  width: 25%;
+}
+
+button {
+  width: 100%;
+}
+
+.form-login {
+  width: 100%;
+}
+
+h1 {
+  color: #10247d;
+  text-align: center;
+}
+
+.mat-card {
+  margin: 10% 38% 20% 38%;
+}

@@ -6,19 +6,19 @@
 
   <div class="col span_2_of_4">
     <div class="col effet libelle">
-      <p>Code Entité: {{entite.codeEntite}}</p>
-      <p>Libellé: {{entite.libelle}}</p>
-      <p>Métier: {{entite.metier.nomMetier}}</p>
-      <p *ngIf="!verifieSite()">Site: {{entite.site.codeSite + ' - ' + entite.site.nomSite}}</p>
-      <p *ngIf="verifieSite()">Site: {{verifieSite()}}</p>
+      <p>Code Entité : {{entite.codeEntite}}</p>
+      <p>Libellé : {{entite.libelle}}</p>
+      <p>Métier : {{entite.metier.nomMetier}}</p>
+      <p *ngIf="!verifieSite()">Site : {{entite.site.codeSite + ' - ' + entite.site.nomSite}}</p>
+      <p *ngIf="verifieSite()">Site : {{verifieSite()}}</p>
 
       <p *ngIf="entite.entiteMere.codeEntite !== entiteTechnique">
-        Entité Mère: <a (click)="ouvreEntiteMere(entite.entiteMere.codeEntite)">
+        Entité Mère : <a (click)="ouvreEntiteMere(entite.entiteMere.codeEntite)">
         {{entite.entiteMere.codeEntite + ' - ' + entite.entiteMere.libelle}}
       </a>
       </p>
 
-      <p *ngIf="entite.entiteMere.codeEntite === entiteTechnique">Entité Mère: - </p>
+      <p *ngIf="entite.entiteMere.codeEntite === entiteTechnique">Entité Mère : - </p>
     </div>
 
 
@@ -34,15 +34,9 @@
       <p id="spécialP">Indicateur Comptable : {{initBoolean(entite.comptable)}}</p>
       <span><p>Activité(s) - ({{entite.activites?.length}}) :  </p><ul><li
         *ngFor=" let a of entite.activites">{{a.nomActivite}}</li></ul></span>
-
-
-      <!--<select>
-        <option *ngFor=" let a of entite.activites">{{a.nomActivite}}</option>
-      </select>-->
     </div>
 
     <!-- l'adress postale -->
-
     <div *ngIf="entite.villePostale" class="col effet adresse">
       <p>Adresse postale :</p>
       <p>Numéro et voie : {{entite.voiePostale}}</p>
@@ -69,13 +63,13 @@
     <!--historique des users connectés-->
     <div *ngIf="auth.isLoggedIn()" class="col effet historique">
       <p>Historique des opérations :</p>
-      <p *ngFor="let h of entite.historiques">{{h.prenom + ' ' + h.nom}} a effectué une {{historiqueGestionnaire(h.operation)}} le {{h.date}}</p>
+      <p *ngFor="let h of entite.historiques">{{h.prenom + ' ' + h.nom}} a effectuée une {{historiqueGestionnaire(h.operation)}} le {{h.date}}</p>
     </div>
 
     <div id="divBouton">
       <button class="button" mat-raised-button color="primary" [routerLink]="['/accueil']">Retour</button>
       <button *ngIf="auth.isLoggedIn()" class="button" mat-raised-button color="accent" (click)="ouvreLaModification(entite.codeEntite)" >Modifier</button>
-      <button *ngIf="isAdmin()" class="button" mat-raised-button color="warn" >Supprimer</button>
+      <button *ngIf="isAdmin()" class="button" mat-raised-button color="warn" (click)="openDialog()">Supprimer</button>
     </div>
   </div>
 

@@ -3,8 +3,12 @@ package fr.laposte.entity.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
 
@@ -38,6 +42,7 @@ public class Historique {
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "CODE_ENTITE")
     @JsonIgnore
+    @NotNull
     private Entite codeEntite;
 
 

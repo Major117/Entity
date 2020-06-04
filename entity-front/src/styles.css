@@ -54,7 +54,28 @@ body {
   margin: 1em 0 1em 0 ;
 }
 
-.snack-bar {
+.snack-bar-error {
   background-color: #ff1744 ;
-  margin-bottom: 20em ;
+  margin-bottom: 20em !important;
+}
+
+.snack-bar-ok {
+  background-color: #10247d;
+  margin-bottom: 20em !important;
+}
+
+.effet {
+  border-radius: 0.25em;
+  background: white;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+mat-label  {
+ color: #212121;
+}
+
+th {
+  color: #10247d !important;
 }

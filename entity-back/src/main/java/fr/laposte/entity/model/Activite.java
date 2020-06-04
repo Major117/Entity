@@ -22,8 +22,8 @@ public class Activite {
     @Column ( name = "NOM_ACTIVITE", length = 50)
     private String nomActivite;
 
-    @ManyToMany
-    private Collection<Entite> entite;
+    /*@ManyToMany
+    private Collection<Entite> entite;*/
 
     public int getIdActivite() {
         return idActivite;
@@ -41,20 +41,22 @@ public class Activite {
         this.nomActivite = nomActivite;
     }
 
-    public Collection<Entite> getEntite() {
-        return entite;
-    }
-
-    public void setEntite(Collection<Entite> entite) {
-        this.entite = entite;
-    }
-
     @Override
     public String toString() {
         return "Activite{" +
                 "idActivite=" + idActivite +
                 ", nomActivite='" + nomActivite + '\'' +
-                ", entite=" + entite +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Activite activite = (Activite) o;
+
+        if (idActivite != activite.idActivite) return false;
+        return nomActivite.equals(activite.nomActivite);
     }
 }

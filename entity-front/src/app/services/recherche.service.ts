@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {RechercheForm} from "./models/RechercheForm";
-import {Entite} from "./models/Entite";
+import {RechercheForm} from "../models/RechercheForm";
+import {Entite} from "../models/Entite";
 
 
 
