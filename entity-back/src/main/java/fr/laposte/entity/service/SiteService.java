@@ -20,6 +20,11 @@ public class SiteService {
     @Autowired
     VilleRepository villeRepository;
 
+    /**
+     * Retourne la liste des sites grace a l'id d'une ville.
+     * @param idVille
+     * @return
+     */
     public List<Site> renvoieLesSites(int idVille) {
       Ville ville = new Ville();
 

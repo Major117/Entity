@@ -13,6 +13,10 @@ public class ActiviteService {
     @Autowired
     ActiviteRepository activiteRepository;
 
+    /**
+     * Retourne la listes des activités.
+     * @return
+     */
     public List<Activite> revoieTousLesActivites(){
 
         return  activiteRepository.findAll();

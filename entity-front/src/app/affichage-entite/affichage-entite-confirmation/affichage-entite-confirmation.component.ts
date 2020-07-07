@@ -27,6 +27,9 @@ export class AffichageEntiteConfirmationComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  /**
+   * Message de confirmation avant supression
+   */
   onDelete() {
     this.entiteService.suppressionEntite(this.data.code).subscribe(next => {
         this.snackBarOk("Suppression réussie !");
@@ -40,6 +43,10 @@ export class AffichageEntiteConfirmationComponent implements OnInit {
       });
   }
 
+  /**
+   * Message ok
+   * @param message
+   */
   snackBarOk(message: string) {
 
     this.snackBar.open(message, null, {
@@ -48,6 +55,10 @@ export class AffichageEntiteConfirmationComponent implements OnInit {
     });
   }
 
+  /**
+   * Message Erreur
+   * @param message
+   */
   snackBarError(message: string) {
     this.snackBar.open(message, null, {
       duration: 4000,

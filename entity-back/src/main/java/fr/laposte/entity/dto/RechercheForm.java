@@ -1,4 +1,4 @@
-package fr.laposte.entity.service;
+package fr.laposte.entity.dto;
 
 import java.util.Date;
 

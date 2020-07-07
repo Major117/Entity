@@ -1,11 +1,11 @@
 package fr.laposte.entity.service;
 
+import fr.laposte.entity.dto.CreationForm;
 import fr.laposte.entity.model.*;
 import fr.laposte.entity.repository.*;
 import fr.laposte.entity.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +40,12 @@ public class EntiteService {
     @Autowired
     ActiviteRepository activiteRepository;
 
-
+    /**
+     * Permet de rechercher une entité à l'aide de son code entité.
+     * @param code   correspond à un code entité.
+     * @return    une entité
+     * @throws  Exception
+     */
     public Entite rechercheUneEntiteAvecSonCode(String code) throws Exception {
 
         Entite entiteEnvoye = new Entite();
@@ -66,7 +71,18 @@ public class EntiteService {
         return entiteEnvoye;
     }
 
-
+    /**
+     *Controle les saisis et retourne une liste d'entité avec les paramètres de la recherche mulit critères.
+     * @param libelle
+     * @param metier
+     * @param ville
+     * @param active
+     * @param rh
+     * @param date
+     * @param activite
+     * @return
+     * @throws Exception
+     */
     public List<Entite> multiCritere (String libelle,
                                       int metier,
                                       int ville,
@@ -102,8 +118,13 @@ public class EntiteService {
       return listEntite;
     }
 
-
-    public boolean isCodeEntiteValideActive(String codeEntite) throws Exception { //TODO...
+    /**
+     * Vérifie si le conde Entité existe.
+     * @param codeEntite
+     * @return
+     * @throws Exception
+     */
+    public boolean isCodeEntiteValideActive(String codeEntite) throws Exception {
 
         rechercheUneEntiteAvecSonCode(codeEntite); //Vérifie le contrôle de saisie et sa présence en BDD, en réutilisant la méthode rechercheUneEntiteAvecSonCode().
         String active = historiqueRepository.entiteActive(codeEntite);
@@ -119,7 +140,7 @@ public class EntiteService {
     }
 
     /**
-     * Génère Un code Entité unique
+     * Génère Un code Entité unique en vérifiant chaque caractère
      * @return
      */
     public String genereUnCodeEntiteUnique(String lastCode) {
@@ -159,6 +180,12 @@ public class EntiteService {
         return newCodeEntite;
     }
 
+    /**
+     *Controle chaque champ saisi et retourne une Entite valide.
+     * @param formControle
+     * @return
+     * @throws Exception
+     */
     public Entite entiteValide(CreationForm formControle) throws Exception {
 
         Entite entiteValide = new Entite();
@@ -300,11 +327,15 @@ public class EntiteService {
         return entiteValide;
     }
 
-
+    /**
+     * Permet de créer une entité.
+     * @param form : Formulaire de création
+     * @return l'entité crée
+     * @throws Exception
+     */
     public Entite nouvelleEntite (CreationForm form) throws Exception {
 
         Entite entiteEnvoye = entiteValide(form);
-
         String msg = "";
         String lastCode = entiteRepository.findLastCodeEntite();
         String newCode ;
@@ -314,7 +345,7 @@ public class EntiteService {
             newCode = genereUnCodeEntiteUnique(lastCode);
             entiteEnvoye.setCodeEntite(newCode);
         } else {
-            msg = "plus de code disponible !";
+            msg = "Plus de code disponible !";
             throw new Exception(msg);
         }
 
@@ -328,7 +359,13 @@ public class EntiteService {
        return entiteRepository.saveAndFlush(entiteEnvoye);
     }
 
-
+    /**
+     * Permet de mettre à jour une entité
+     * @param code
+     * @param form
+     * @return
+     * @throws Exception
+     */
     public Entite udpdateEntite (String code, CreationForm form) throws Exception {
 
 
@@ -354,22 +391,33 @@ public class EntiteService {
         return entiteRepository.save(entiteEnvoye);
     }
 
+    /**
+     * Permet de supprimer une entité du referentiel
+     * @param code
+     * @throws Exception
+     */
     public void deleteEntite (String code) throws Exception {
 
         String msg = "";
         List<String> entiteList = entiteRepository.findEntitesFilles(code);
-        String msgListEntite = String.valueOf(entiteList).substring(1, entiteList.toString().length() - 1) + " .";
+       // String msgListEntite = String.valueOf(entiteList).substring(1, entiteList.toString().length() - 1) + " .";
 
        if (entiteList.isEmpty()) {
            historiqueRepository.removeHistoriques(code);
            entiteRepository.removeEntiteByCodeEntite(code);
        } else {
-           msg = "Vous ne pouvez pas supprimer cette Entité, car elle gère(s) : " + msgListEntite;
+           msg = "Vous ne pouvez pas supprimer cette Entité, car elle gère(s) d'autre(s) entité(s).";
            throw new Exception(msg);
        }
 
     }
 
+    /**
+     * Permet de generer des historiques referant a une operation
+     * @param entite
+     * @param operation
+     * @return
+     */
     public Historique genereUnHistorique (Entite entite ,String operation) {
         Historique historique = new Historique();
 

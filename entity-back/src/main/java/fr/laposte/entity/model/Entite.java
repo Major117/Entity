@@ -3,8 +3,6 @@ package fr.laposte.entity.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -38,7 +36,7 @@ public class Entite {
     }
 
     @Id
-    @Column ( name = "CODE_ENTITE", length = 6, nullable = false, columnDefinition = "CHAR(6)")
+    @Column ( name = "CODE_ENTITE", length = 6 )
     private String codeEntite;
 
    @NotNull
@@ -69,7 +67,7 @@ public class Entite {
 
     @OneToOne
     @NotNull
-    @JoinColumn( name="CODE_METIER")
+    @JoinColumn( name="ID_METIER")
     private Metier metier;
 
     @OneToOne
@@ -91,14 +89,14 @@ public class Entite {
     private Entite entiteMere;
 
     @ManyToMany ( fetch = FetchType.EAGER)
-    @Fetch( FetchMode.SUBSELECT)  //TODO cascade type detach
+    @Fetch( FetchMode.SUBSELECT)
     @JoinTable(
             name = "FR_ENTITE_ACTIVITE",
             inverseJoinColumns =  @JoinColumn(name = "ID_ACTIVITE") ,
             joinColumns =  @JoinColumn(name = "CODE_ENTITE"))
     private Collection<Activite> activites;
 
-    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER )  //TODO
+    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER )
     @Fetch(FetchMode.SUBSELECT)
     @JoinColumn(name = "CODE_ENTITE")
     @OrderBy ("date ASC")

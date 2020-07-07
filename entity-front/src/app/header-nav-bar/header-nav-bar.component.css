@@ -39,3 +39,16 @@ mat-toolbar {
 .mesLogo {
   text-align: center;
 }
+
+#MenuMobile {
+  display: none;
+}
+
+#MenuPC {
+  display: flex;
+}
+
+@media only screen and (max-width: 750px) {
+  #MenuPC {display: none}
+ #MenuMobile {display: flex}
+}

@@ -6,14 +6,14 @@
 
     <mat-form-field>
       <mat-label>Code entité :</mat-label>
-      <input matInput name="code entité" placeholder="Ex: AB1234" formControlName="codeEntite">
+      <input matInput name="code entite" placeholder="Ex: AB1234" formControlName="codeEntite">
     </mat-form-field>
 
     <p>Ou</p>
 
     <mat-form-field>
       <mat-label>Libelle :</mat-label>
-      <input matInput type="text" name="libelle" placeholder="min 3 caractère" formControlName="libelle">
+      <input matInput type="text" name="libelle" placeholder="min 3 caractères" formControlName="libelle">
     </mat-form-field>
 
     <br>
@@ -22,10 +22,12 @@
       <mat-label>Metier :</mat-label>
       <mat-select formControlName="metier">
         <mat-option value=""></mat-option>
-        <mat-option *ngFor="let m of metier" [value]="m.codeMetier">{{m.nomMetier}}</mat-option>
+        <mat-option *ngFor="let m of metier" [value]="m.idMetier">{{m.nomMetier}}</mat-option>
       </mat-select>
     </mat-form-field>
+
     <br>
+
     <mat-form-field>
       <mat-label>Ville :</mat-label>
       <mat-select formControlName="ville">

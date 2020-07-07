@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../services/auth.service";
 import {TokenStorageService} from "../services/token-storage.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-connexion',
@@ -12,11 +13,14 @@ export class ConnexionComponent implements OnInit {
   form: any = {};
   isLoggedIn = false;
   isLoginFailed = false;
-  errorMessage = '';
   roles: string[] = [];
   returnUrl: string;
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService,  private route: ActivatedRoute, private router: Router) { }
+  constructor(private authService: AuthService,
+              private tokenStorage: TokenStorageService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
@@ -26,7 +30,9 @@ export class ConnexionComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-
+  /**
+   * Formulaire de connexion
+   */
   onSubmit() {
     this.authService.login(this.form).subscribe(
       data => {
@@ -39,10 +45,22 @@ export class ConnexionComponent implements OnInit {
         this.router.navigate([this.returnUrl]);
       },
       err => {
-        this.errorMessage = err.error.message;
+        this.snackBarError('Erreur de login ou de mot de passe');
         this.isLoginFailed = true;
       }
     );
+  }
+
+  /**
+   * Ouvre message Erreur
+   * @param message
+   */
+  snackBarError(message: string) {
+    this.snackBar.open(message, null, {
+      duration: 4000,
+      panelClass: ['snack-bar-error']
+    });
+
   }
 
 }

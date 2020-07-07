@@ -18,4 +18,6 @@ public interface EntiteRepository extends JpaRepository<Entite, String> , Entite
     List<String> findEntitesFilles(String code);
 
     void removeEntiteByCodeEntite(String code);
+
+
 }

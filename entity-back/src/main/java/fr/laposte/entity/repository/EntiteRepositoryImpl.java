@@ -21,7 +21,18 @@ public class EntiteRepositoryImpl implements EntiteRepositoryCustom {
     @Autowired
     ActiviteRepository activiteRepository;
 
-
+    /**
+     * Requêtes permettant la recherche multi critère.
+     * @param libelle
+     * @param metier
+     * @param ville
+     * @param active
+     * @param rh
+     * @param date
+     * @param activite
+     * @param limit
+     * @return une liste d'entité
+     */
     @Override
     public List findByCriteria(String libelle, int metier, int ville, Boolean active , Boolean rh, LocalDateTime date, int activite, int limit) {
        String entiteTechnique = "AA0000";

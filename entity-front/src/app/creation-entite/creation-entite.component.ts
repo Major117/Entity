@@ -24,7 +24,6 @@ export class CreationEntiteComponent implements OnInit {
   newEntite: Entite;
   codeEntiteMere: string;
   messageError: string;
- // villePhysique: number;
   metier: Metier[];
   ville: Ville[];
   activite: Activite[];
@@ -87,6 +86,10 @@ export class CreationEntiteComponent implements OnInit {
     });
   }
 
+  /**
+   * Recherche un site par rapport à la ville choisie
+   * @param idVille
+   */
   initSite(idVille: number) {
     this.fs.chargeLesSites(idVille).subscribe((data: any[]) => {
         this.site = data;
@@ -100,6 +103,10 @@ export class CreationEntiteComponent implements OnInit {
     )
   }
 
+  /**
+   * Verifie si le code Entité Mere est actif
+   * @param codeEntite
+   */
   verifieEntiteMere(codeEntite: string) {
     this.codeEntiteMere = codeEntite;
     this.reponse = null;
@@ -124,7 +131,9 @@ export class CreationEntiteComponent implements OnInit {
     }
   }
 
-
+  /**
+   * Formulaire pour la création d'une entité
+   */
   creationEntite() {
     const formValue = this.creationForm.value;
     const newForm = new CreationForm(
@@ -157,6 +166,9 @@ export class CreationEntiteComponent implements OnInit {
       });
   }
 
+  /**
+   * Réinitialise les champs du formulaire
+   */
   reinitialiser() {
     this.creationForm.get('libelle').setValue(null);
     this.creationForm.get('entiteMere').setValue(null);
@@ -176,6 +188,10 @@ export class CreationEntiteComponent implements OnInit {
 
   }
 
+  /**
+   * Message ok
+   * @param message
+   */
   snackBarOk(message: string) {
 
     this.snackBar.open(message ,null,{
@@ -184,6 +200,10 @@ export class CreationEntiteComponent implements OnInit {
     });
   }
 
+  /**
+   * Message Erreur
+   * @param message
+   */
   snackBarError(message: string) {
     this.snackBar.open(message ,null,{
       duration: 4000,

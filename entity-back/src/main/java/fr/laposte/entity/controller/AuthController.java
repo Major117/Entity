@@ -1,7 +1,7 @@
-package fr.laposte.entity.controler;
+package fr.laposte.entity.controller;
 
-import fr.laposte.entity.payload.request.LoginRequest;
-import fr.laposte.entity.payload.response.JwtResponse;
+import fr.laposte.entity.dto.LoginRequest;
+import fr.laposte.entity.dto.JwtResponse;
 import fr.laposte.entity.security.jwt.JwtUtils;
 import fr.laposte.entity.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin("*")
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired

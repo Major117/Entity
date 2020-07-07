@@ -28,16 +28,16 @@ export class RechercheComponent implements OnInit {
   activite: Activite[];
 
 
-  constructor(private fb: FormBuilder,
-              private fs: FormulaireService ,
-              private rs: RechercheService,
+  constructor(private formBuilder: FormBuilder,
+              private formService: FormulaireService ,
+              private rechercheService: RechercheService,
               private router: Router,
               private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
 
-    this.fs.chargeLesMetiers()
+    this.formService.chargeLesMetiers()
       .subscribe((data: any[]) => {
           this.metier = data;
         },
@@ -46,7 +46,7 @@ export class RechercheComponent implements OnInit {
           this.snackBarError(this.messageError);
         });
 
-    this.fs.chargeLesVilles()
+    this.formService.chargeLesVilles()
       .subscribe((data: any[]) => {
           this.ville = data;
         },
@@ -55,7 +55,7 @@ export class RechercheComponent implements OnInit {
           this.snackBarError(this.messageError);
         });
 
-    this.fs.chargeLesActivites()
+    this.formService.chargeLesActivites()
       .subscribe((data: any[]) => {
           this.activite = data;
         },
@@ -65,7 +65,7 @@ export class RechercheComponent implements OnInit {
         });
 
 
-    this.rechercheForm = this.fb.group({
+    this.rechercheForm = this.formBuilder.group({
       codeEntite: '',
       libelle: '',
       metier: null,
@@ -78,7 +78,10 @@ export class RechercheComponent implements OnInit {
 
   }
 
-
+  /**
+   * Recherche une entité avec son code.
+   * @param code
+   */
   rechercheParCodeEntite(code ?: string) {
     this.entite = null;
     this.messageError = null;
@@ -88,36 +91,29 @@ export class RechercheComponent implements OnInit {
       code = codeDuForm;
     }
 
-    this.rs.rechercheAvecCodeEntite(code)
+    this.rechercheService.rechercheAvecCodeEntite(code)
       .subscribe(data => { this.entite = data;
         this.router.navigateByUrl(`/entite/${this.entite.codeEntite}`)},
         error => {this.messageError = error.error.message;
-                        this.snackBarError(this.messageError);  });
+                        this.snackBarError(this.messageError);
+      });
 
   }
 
-
+  /**
+   * Recherche une entité avec une liste de critères.
+   */
   rechercheMultiCritere() {
     this.listEntite = null;
     this.messageError = null;   //vide les infos
 
     const formValue = this.rechercheForm.value;
-    const newForm = new RechercheForm(
-      formValue['codeEntite'],
-      formValue['libelle'],
-      formValue['metier'],
-      formValue['ville'],
-      formValue['active'],
-      formValue['rh'],
-      formValue['date'],
-      formValue['activite']
-    );
-    console.log(newForm);
-    this.rs.rechercheMultiCritere(formValue)
+
+    this.rechercheService.rechercheMultiCritere(formValue)
       .subscribe((data: any[]) => {
           this.listEntite = data;
           if (this.listEntite.length == 1) {
-            this.rechercheParCodeEntite(this.listEntite[0].codeEntite);
+            this.rechercheParCodeEntite(this.listEntite[0].codeEntite); //Affiche directement l'entité
           } else if (this.listEntite.length == 100) {
             this.messageError =
               "Le résultat de la recherche contient plus de 100 entités, " +
@@ -134,7 +130,9 @@ export class RechercheComponent implements OnInit {
 
   }
 
-
+  /**
+   * Rétablis les valeurs par défaut du formulaire
+   */
   reinitialiser() {
     this.rechercheForm.get('codeEntite').setValue('');
     this.rechercheForm.get('libelle').setValue('');
@@ -146,7 +144,11 @@ export class RechercheComponent implements OnInit {
     this.rechercheForm.get('activite').setValue(null);
   }
 
-
+  /**
+   * Oriente la recherche multicritère
+   * 1. par le code
+   * 2. par une liste de critère
+   */
   envoyeFormulaire() {
     const code = this.rechercheForm.get('codeEntite').value;
 
@@ -160,6 +162,10 @@ export class RechercheComponent implements OnInit {
     }
   }
 
+  /**
+   * Message Erreur.
+   * @param message
+   */
   snackBarError(message: string) {
     this.snackBar.open(message, null, {
       duration: 4000,

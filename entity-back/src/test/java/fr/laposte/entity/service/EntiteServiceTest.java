@@ -160,8 +160,6 @@ public class EntiteServiceTest {
 
    @Test
     void deleteUneEntite() throws Exception {
-
        entiteService.deleteEntite("PA2762");
-
    }
 }

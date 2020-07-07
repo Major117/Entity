@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Entite} from "../models/Entite";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {RechercheService} from "../services/recherche.service";
-import {switchMap} from "rxjs/operators";
+import {catchError, delay, switchMap} from "rxjs/operators";
 import {TokenStorageService} from "../services/token-storage.service";
 import {MatDialog} from "@angular/material/dialog";
 import {AffichageEntiteConfirmationComponent} from "./affichage-entite-confirmation/affichage-entite-confirmation.component";
@@ -14,7 +14,7 @@ import {AffichageEntiteConfirmationComponent} from "./affichage-entite-confirmat
 })
 export class AffichageEntiteComponent implements OnInit {
 
-  entite: Entite;
+  entite : Entite;
   active: boolean;
 
   entiteTechnique = 'AA0000';
@@ -23,7 +23,6 @@ export class AffichageEntiteComponent implements OnInit {
   modification = 'M';
   msgDeModification = 'Aucune modification n’a été apportée ';
   code: string;
-  operation: string;
 
 
   constructor(private route: ActivatedRoute,
@@ -45,12 +44,17 @@ export class AffichageEntiteComponent implements OnInit {
 
   }
 
+  /**
+   * Initialise l'historique
+   * @param crt
+   * @param msg
+   */
   initDateHistorique(crt: string, msg?: string) {
 
-    let historiqueList = this.entite.historiques.filter(historique => historique.operation === crt);
+    let historiqueList = this.entite?.historiques.filter(historique => historique.operation === crt);
     this.active = null;
 
-    if (historiqueList.length === 0) {
+    if (historiqueList?.length === 0) {
       if (msg) {
         return msg
       } else {
@@ -67,10 +71,10 @@ export class AffichageEntiteComponent implements OnInit {
         this.active = true;
         return historiqueListActive[historiqueListActive.length - 1].date;
       }
-    } else if (historiqueList.length === 1) {
+    } else if (historiqueList?.length === 1) {
       return historiqueList[0].date;
     } else {
-      return historiqueList[historiqueList.length - 1].date;
+      return historiqueList[historiqueList?.length - 1]?.date;
     }
   }
 
@@ -90,7 +94,7 @@ export class AffichageEntiteComponent implements OnInit {
   }
 
   verifieSite() {
-    if (!this.entite.site) {
+    if (!this.entite?.site) {
       return 'Aucun';
     }
   }
@@ -104,6 +108,10 @@ export class AffichageEntiteComponent implements OnInit {
 
   }
 
+  /**
+   * Redirige vers l'entité Mère
+   * @param code
+   */
   ouvreEntiteMere(code) {
     this.router.navigateByUrl(`/entite/${code}`);
   }
@@ -112,6 +120,9 @@ export class AffichageEntiteComponent implements OnInit {
     this.router.navigate(['/modification'], {queryParams: {code: code}})
   }
 
+  /**
+   * Ouvre la popup de confirmation
+   */
   openDialog(): void {
     let dialogRef = this.dialog.open(AffichageEntiteConfirmationComponent,{
       width : '20em',
@@ -120,10 +131,13 @@ export class AffichageEntiteComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      //console.log('The dialog was closed');
     });
   }
 
+  /**
+   * Vérifie si l'utilisateur et Connecté et Admin.
+   */
   isAdmin() {
     if (this.auth.isLoggedIn()) {
       return this.auth.getUser().roles.toString() === 'ROLE_Admin';

@@ -155,9 +155,6 @@ public class EntiteRepositoryTest {
     }
 
     @Test
-    /**
-     *
-     */
     void testRechercheMultiCritereDate() {
 
         String str = "2015-01-01 00:00";

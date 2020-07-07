@@ -1,3 +1,4 @@
+<ng-container *ngIf="this.entite">
 <h1>{{this.entite.codeEntite + ' - ' + this.entite.libelle}}</h1>
 
 <div class="section group">
@@ -14,7 +15,7 @@
 
       <p *ngIf="entite.entiteMere.codeEntite !== entiteTechnique">
         Entité Mère : <a (click)="ouvreEntiteMere(entite.entiteMere.codeEntite)">
-        {{entite.entiteMere.codeEntite + ' - ' + entite.entiteMere.libelle}}
+        {{entite?.entiteMere.codeEntite + ' - ' + entite.entiteMere.libelle}}
       </a>
       </p>
 
@@ -52,7 +53,7 @@
     <!--historique des Users non connectés-->
     <div *ngIf="!auth.isLoggedIn()" class="col effet historique">
       <p>Historique des opérations :</p>
-      <p>Date de création : {{entite.historiques[0].date.toString().split(" ")[0]}}</p>
+      <p>Date de création : {{entite?.historiques[0].date.toString().split(" ")[0]}}</p>
       <p>Date de modification : {{initDateHistorique(modification, msgDeModification)}} </p>
       <p *ngIf="initDateHistorique(desactivation) && active === false">Date de désactivation
         : {{initDateHistorique(desactivation)}}</p>
@@ -68,7 +69,7 @@
 
     <div id="divBouton">
       <button class="button" mat-raised-button color="primary" [routerLink]="['/accueil']">Retour</button>
-      <button *ngIf="auth.isLoggedIn()" class="button" mat-raised-button color="accent" (click)="ouvreLaModification(entite.codeEntite)" >Modifier</button>
+      <button *ngIf="auth.isLoggedIn() && entite.codeEntite != 'AC4603'" class="button" mat-raised-button color="accent" (click)="ouvreLaModification(entite.codeEntite)" >Modifier</button>
       <button *ngIf="isAdmin()" class="button" mat-raised-button color="warn" (click)="openDialog()">Supprimer</button>
     </div>
   </div>
@@ -76,3 +77,4 @@
   <div class="push col span_1_of_4"></div>
 
 </div>
+</ng-container>

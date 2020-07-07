@@ -13,6 +13,11 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private token: TokenStorageService) {}
 
+  /**
+   * Intercepte le Jeton JWT.
+   * @param request
+   * @param next
+   */
   intercept(request: HttpRequest<any>, next: HttpHandler){
     let authRequest = request;
     const token = this.token.getToken();

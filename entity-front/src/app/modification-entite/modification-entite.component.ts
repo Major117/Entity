@@ -106,7 +106,10 @@ export class ModificationEntiteComponent implements OnInit {
 
   }
 
-
+  /**
+   * Recherche en Async un site avec l'id de la ville physique.
+   * @param idVille
+   */
   initSite(idVille: number) {
     this.formService.chargeLesSites(idVille).subscribe((data: any[]) => {
         this.site = data;
@@ -120,6 +123,10 @@ export class ModificationEntiteComponent implements OnInit {
     )
   }
 
+  /**
+   * Vérifie si l'entité mère existe et active.
+   * @param codeEntite
+   */
   verifieEntiteMere(codeEntite: string) {
     this.codeEntiteMere = codeEntite;
     this.reponse = null;
@@ -143,6 +150,9 @@ export class ModificationEntiteComponent implements OnInit {
     }
   }
 
+  /**
+   * Initialyse les valeurs actuelles de l'entité dans le formulaire.
+   */
   valeurInitialEntite() {
 
     const listActivite : number[] = this.entite.activites.map(({idActivite}) => idActivite);
@@ -150,7 +160,7 @@ export class ModificationEntiteComponent implements OnInit {
 
     this.modificationForm.get('libelle').setValue(this.entite.libelle);
     this.modificationForm.get('entiteMere').setValue(this.entite.entiteMere.codeEntite);
-    this.modificationForm.get('metier').setValue(this.entite.metier.codeMetier);
+    this.modificationForm.get('metier').setValue(this.entite.metier.idMetier);
     this.modificationForm.get('voieAdressePhysique').setValue(this.entite.voiePhysique);
     this.modificationForm.get('cpAdressePhysique').setValue(this.entite.cpPhysique);
     this.modificationForm.get('villePhysique').setValue(ville);
@@ -168,7 +178,9 @@ export class ModificationEntiteComponent implements OnInit {
     this.messageError = null;
   }
 
-
+  /**
+   * Fomulaire de modification.
+   */
   modificationEntite() {
     const formValue = this.modificationForm.value;
     const newForm = new CreationForm(
@@ -186,7 +198,6 @@ export class ModificationEntiteComponent implements OnInit {
       formValue['comptable'],
       formValue['activite']
     );
-    console.log(newForm);
     this.entiteService.modificationEntite(this.code, newForm).subscribe((data: Entite) => {
         this.newEntite = data;
         this.snackBarOk('modification réussie');
@@ -201,6 +212,10 @@ export class ModificationEntiteComponent implements OnInit {
       });
   }
 
+  /**
+   * Merssage Confirmation
+   * @param message
+   */
   snackBarOk(message: string) {
 
     this.snackBar.open(message, null, {
@@ -209,6 +224,10 @@ export class ModificationEntiteComponent implements OnInit {
     });
   }
 
+  /**
+   * Merssage Erreur
+   * @param message
+   */
   snackBarError(message: string) {
     this.snackBar.open(message, null, {
       duration: 4000,

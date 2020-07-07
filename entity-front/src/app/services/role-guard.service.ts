@@ -25,7 +25,6 @@ export class RoleGuardService implements CanActivate {
       }
     } else {
       this.router.navigate(['connexion'], {queryParams: {returnUrl: state.url}});
-      console.log(state.url);
       return false
     }
   }

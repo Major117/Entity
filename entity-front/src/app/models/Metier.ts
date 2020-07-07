@@ -1,6 +1,6 @@
 export interface Metier {
 
-  codeMetier: number;
+  idMetier: number;
   nomMetier: string;
 
 }

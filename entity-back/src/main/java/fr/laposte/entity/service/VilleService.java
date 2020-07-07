@@ -13,6 +13,10 @@ public class VilleService {
     @Autowired
     VilleRepository villeRepository;
 
+    /**
+     * Retourne la liste de toutes les villes.
+     * @return
+     */
     public List<Ville> revoieToutesLesVilles(){
 
         return villeRepository.findAllByOrderByNomVilleAsc();

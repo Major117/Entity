@@ -1,0 +1,13 @@
+h1 {
+  font-size: 1.75em;
+  text-align: center;
+  margin: 4.5em auto;
+  color: #10247d;
+}
+
+div {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 20%;
+  font-size: 1.1em;
+}

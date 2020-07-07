@@ -37,6 +37,7 @@ import { AffichageEntiteConfirmationComponent } from './affichage-entite/afficha
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
+import { AProposComponent } from './a-propos/a-propos.component';
 
 
 export const MY_FORMAT: MatDateFormats = {
@@ -63,6 +64,7 @@ export const MY_FORMAT: MatDateFormats = {
     ConnexionComponent,
     ModificationEntiteComponent,
     AffichageEntiteConfirmationComponent,
+    AProposComponent,
   ],
   entryComponents: [AffichageEntiteConfirmationComponent],
   imports: [

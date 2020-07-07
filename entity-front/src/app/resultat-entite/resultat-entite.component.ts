@@ -20,7 +20,10 @@ export class ResultatEntiteComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
+  /**
+   * Vérifie si l'entité est active.
+   * @param str
+   */
   isActive(str: string): string {
     let active;
 
@@ -32,6 +35,10 @@ export class ResultatEntiteComponent implements OnInit {
     return active;
   }
 
+  /**
+   * Redirige sur la consultation d'entité après avoir cliqué.
+   * @param code
+   */
   choixEntite(code) {
       this.router.navigateByUrl(`/entite/${code}`);
   }

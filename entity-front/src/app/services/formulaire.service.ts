@@ -15,23 +15,23 @@ export class FormulaireService {
   }
 
   chargeLesMetiers() : Observable<any> {
-    return this.http.get(`${this.baseUrl}entite/init-metier`);
+    return this.http.get(`${this.baseUrl}init/metier`);
   }
 
   chargeLesVilles() : Observable<any> {
-    return this.http.get(`${this.baseUrl}entite/init-ville`);
+    return this.http.get(`${this.baseUrl}init/ville`);
   }
 
   chargeLesActivites() : Observable<any> {
-    return this.http.get(`${this.baseUrl}entite/init-activite`);
+    return this.http.get(`${this.baseUrl}init/activite`);
   }
 
   chargeLesSites(idVille: number) : Observable<any> {
-    return this.http.get(`${this.baseUrl}entite/init-site?id=${idVille}`  );
+    return this.http.get(`${this.baseUrl}init/site?id=${idVille}`  );
   }
 
   verifieEntiteMere(codeEntite: string) : Observable<any> {
-    return this.http.get(`${this.baseUrl}entite/entite-mere?code=${codeEntite}`);
+    return this.http.get(`${this.baseUrl}entite/public/entite-mere?code=${codeEntite}`);
   }
 
 

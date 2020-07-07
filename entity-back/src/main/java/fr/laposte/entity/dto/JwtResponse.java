@@ -1,4 +1,4 @@
-package fr.laposte.entity.payload.response;
+package fr.laposte.entity.dto;
 
 import java.util.List;
 

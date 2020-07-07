@@ -13,6 +13,10 @@ public class MetierService {
     @Autowired
     MetierRepository metierRepository;
 
+    /**
+     * Retourne la liste de tous les métiers
+     * @return
+     */
     public List<Metier> revoieTousLesMetier(){
 
         return  metierRepository.findAll();

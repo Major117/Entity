@@ -18,7 +18,7 @@
     <mat-form-field id="metier">
       <mat-label>Metier :</mat-label>
       <mat-select formControlName="metier" required>
-        <mat-option *ngFor="let m of metier" [value]="m.codeMetier">{{m.nomMetier}}</mat-option>
+        <mat-option *ngFor="let m of metier" [value]="m.idMetier">{{m.nomMetier}}</mat-option>
       </mat-select>
     </mat-form-field>
     <br>

@@ -8,25 +8,25 @@ import javax.validation.constraints.NotNull;
 @Table ( name = "FE_METIER")
 public class Metier {
 
-    public Metier() {
-    }
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    @Column( name = "CODE_METIER")
-    private int codeMetier;
+    @Column( name = "ID_METIER")
+    private int idMetier;
 
     @NotNull
     @Column ( name = "NOM_METIER", length = 50)
     private String nomMetier;
 
-
-    public int getCodeMetier() {
-        return codeMetier;
+    public Metier() {
     }
 
-    public void setCodeMetier(int codeMetier) {
-        this.codeMetier = codeMetier;
+
+    public int getIdMetier() {
+        return idMetier;
+    }
+
+    public void setIdMetier(int codeMetier) {
+        this.idMetier = codeMetier;
     }
 
     public String getNomMetier() {
@@ -40,7 +40,7 @@ public class Metier {
     @Override
     public String toString() {
         return "Metier{" +
-                "codeMetier=" + codeMetier +
+                "codeMetier=" + idMetier +
                 ", nomMetier='" + nomMetier + '\'' +
                 '}';
     }

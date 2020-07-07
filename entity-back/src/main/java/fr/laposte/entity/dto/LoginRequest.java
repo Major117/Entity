@@ -1,4 +1,4 @@
-package fr.laposte.entity.payload.request;
+package fr.laposte.entity.dto;
 
 import javax.validation.constraints.NotBlank;
 

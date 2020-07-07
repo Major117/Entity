@@ -6,19 +6,45 @@
     </div>
 </header>
 
-<mat-toolbar color="primary" [class.sticky]="sticky" #stickyMenu >
+<!--MENU DEKSTOP-->
+
+<mat-toolbar id="MenuPC" color="primary" [class.sticky]="sticky" #stickyMenu >
   <mat-toolbar-row>
     <a  mat-button routerLink="/accueil" routerLinkActive="active"><mat-icon>home</mat-icon>accueil </a>
-    <a mat-button routerLink="/accueil" routerLinkActive="active"><mat-icon>search</mat-icon>recherche</a>
+    <!--<a mat-button routerLink="/accueil" routerLinkActive="active"><mat-icon>search</mat-icon>recherche</a>-->
     <a mat-button routerLink="/creation" routerLinkActive="active"><mat-icon>create</mat-icon>création</a>
-    <a mat-button ><mat-icon>description</mat-icon>à propos</a>
+    <a mat-button routerLink="/a-propos" routerLinkActive="active"><mat-icon>description</mat-icon>à propos</a>
 
     <span class="example-spacer"></span>
 
     <a *ngIf="!tokenStorage.isLoggedIn()" mat-button routerLink="/connexion" routerLinkActive="active"><mat-icon>person</mat-icon>connexion</a>
-    <button *ngIf="tokenStorage.isLoggedIn()" mat-button [matMenuTriggerFor]="menu"><mat-icon>person</mat-icon>{{tokenStorage.getUser().log}} - {{tokenStorage.getUser().prenom}}.{{tokenStorage.getUser().nom[0]}}</button>
+    <button *ngIf="tokenStorage.isLoggedIn()" mat-button [matMenuTriggerFor]="menu"><mat-icon>person</mat-icon>{{tokenStorage.getUser().log}}</button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="tokenStorage.signOut()"><mat-icon>power_settings_new</mat-icon>déconnexion</button>
     </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<!--MENU MOBILE-->
+
+<mat-toolbar id="MenuMobile" color="primary" [class.sticky]="sticky" #stickyMenu >
+  <mat-toolbar-row>
+<button mat-button [matMenuTriggerFor]="mobile"><mat-icon>menu</mat-icon></button>
+    <mat-menu #mobile="matMenu">
+      <a  mat-button routerLink="/accueil" routerLinkActive="active"><mat-icon>home</mat-icon>accueil </a>
+      <br>
+      <a mat-button routerLink="/creation" routerLinkActive="active"><mat-icon>create</mat-icon>création</a>
+      <br>
+      <a mat-button routerLink="/a-propos" routerLinkActive="active"><mat-icon>description</mat-icon>à propos</a>
+    </mat-menu>
+
+    <span class="example-spacer"></span>
+
+    <a *ngIf="!tokenStorage.isLoggedIn()" mat-button routerLink="/connexion" routerLinkActive="active"><mat-icon>person</mat-icon></a>
+    <button *ngIf="tokenStorage.isLoggedIn()" mat-button [matMenuTriggerFor]="menu"><mat-icon>person</mat-icon>{{tokenStorage.getUser().log}}</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="tokenStorage.signOut()"><mat-icon>power_settings_new</mat-icon>déconnexion</button>
+    </mat-menu>
+
   </mat-toolbar-row>
 </mat-toolbar>

@@ -18,11 +18,11 @@ export class RechercheService {
 
 
   rechercheAvecCodeEntite(code) : Observable<Entite>  {
-    return this.http.get<Entite>(`${this.baseUrl}entite/unique?id=${code}`);
+    return this.http.get<Entite>(`${this.baseUrl}entite/public/unique?id=${code}`);
   }
 
   rechercheMultiCritere(form : RechercheForm) :Observable<any> {
-    return this.http.post<RechercheForm>(this.baseUrl + 'entite/multi', form );
+    return this.http.post<RechercheForm>(this.baseUrl + 'entite/public/multi', form );
   }
 
 }
