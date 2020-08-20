@@ -19,7 +19,7 @@ public class MetierService {
      */
     public List<Metier> revoieTousLesMetier(){
 
-        return  metierRepository.findAll();
+        return  metierRepository.findAllByOrderByNomMetierAsc();
     }
 
 }

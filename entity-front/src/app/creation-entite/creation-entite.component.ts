@@ -48,7 +48,7 @@ export class CreationEntiteComponent implements OnInit {
           this.snackBarError(this.messageError);
         });
 
-    this.fs.chargeLesVilles()
+    /*this.fs.chargeLesVilles()
       .subscribe((data: any[]) => {
           this.ville = data;
           this.isSite = true;
@@ -57,7 +57,7 @@ export class CreationEntiteComponent implements OnInit {
           this.messageError = error.error.message;
           this.isSite = false;
           this.snackBarError(this.messageError);
-        });
+        });*/
 
     this.fs.chargeLesActivites()
       .subscribe((data: any[]) => {

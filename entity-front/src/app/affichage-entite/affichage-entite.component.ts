@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Entite} from "../models/Entite";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {RechercheService} from "../services/recherche.service";
-import {catchError, delay, switchMap} from "rxjs/operators";
+import { switchMap} from "rxjs/operators";
 import {TokenStorageService} from "../services/token-storage.service";
 import {MatDialog} from "@angular/material/dialog";
 import {AffichageEntiteConfirmationComponent} from "./affichage-entite-confirmation/affichage-entite-confirmation.component";
@@ -144,6 +144,11 @@ export class AffichageEntiteComponent implements OnInit {
     } else {
       return false
     }
+  }
+
+  retour() {
+
+
   }
 
 }

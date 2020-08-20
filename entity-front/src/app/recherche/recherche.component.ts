@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 import {Entite} from "../models/Entite";
 import {FormulaireService} from "../services/formulaire.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {KeepService} from "../services/keep.service";
 
 
 @Component({
@@ -31,6 +32,7 @@ export class RechercheComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private formService: FormulaireService ,
               private rechercheService: RechercheService,
+              private keepService : KeepService,
               private router: Router,
               private snackBar: MatSnackBar) {
   }
@@ -46,14 +48,14 @@ export class RechercheComponent implements OnInit {
           this.snackBarError(this.messageError);
         });
 
-    this.formService.chargeLesVilles()
+   /* this.formService.chargeLesVilles()
       .subscribe((data: any[]) => {
           this.ville = data;
         },
         error => {
           this.messageError = error.error.message;
           this.snackBarError(this.messageError);
-        });
+        });*/
 
     this.formService.chargeLesActivites()
       .subscribe((data: any[]) => {
@@ -99,6 +101,20 @@ export class RechercheComponent implements OnInit {
       });
 
   }
+
+  chargeVille(lettre: string) {
+
+  if (lettre.length > 2 ){
+    this.formService.chargeLesVilles(lettre)
+      .subscribe((data: any[]) => {
+         this.ville = data;
+       },
+        error => {
+          this.messageError = error.error.message;
+          this.snackBarError(this.messageError);
+        });
+      }
+    }
 
   /**
    * Recherche une entité avec une liste de critères.

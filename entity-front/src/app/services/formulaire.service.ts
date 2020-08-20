@@ -18,8 +18,8 @@ export class FormulaireService {
     return this.http.get(`${this.baseUrl}init/metier`);
   }
 
-  chargeLesVilles() : Observable<any> {
-    return this.http.get(`${this.baseUrl}init/ville`);
+  chargeLesVilles(lettre: string) : Observable<any> {
+    return this.http.get(`${this.baseUrl}init/ville?ville=${lettre}`);
   }
 
   chargeLesActivites() : Observable<any> {
@@ -27,7 +27,7 @@ export class FormulaireService {
   }
 
   chargeLesSites(idVille: number) : Observable<any> {
-    return this.http.get(`${this.baseUrl}init/site?id=${idVille}`  );
+    return this.http.get(`${this.baseUrl}init/site?id=${idVille}`);
   }
 
   verifieEntiteMere(codeEntite: string) : Observable<any> {

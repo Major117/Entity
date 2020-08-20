@@ -18,6 +18,6 @@ public class SiteRepositoryTest {
         ville.setIdVille(2);
         ville.setNomVille("Confolens");
 
-       assertEquals(1,siteRepository.findAllByVille(ville).size());
+       assertEquals(1,siteRepository.findAllByVilleOrderByNomSiteAsc(ville).size());
    }
 }

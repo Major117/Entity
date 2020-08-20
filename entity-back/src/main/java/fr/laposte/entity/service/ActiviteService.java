@@ -19,6 +19,6 @@ public class ActiviteService {
      */
     public List<Activite> revoieTousLesActivites(){
 
-        return  activiteRepository.findAll();
+        return  activiteRepository.findAllByOrderByNomActiviteAsc();
     }
 }

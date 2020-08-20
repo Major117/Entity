@@ -18,7 +18,8 @@ public class VilleController {
 
     @GetMapping("/ville")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<Ville> chargeLesVilles(){
-        return vs.revoieToutesLesVilles();
+    public List<Ville> chargeLesVilles(@RequestParam (value = "ville") String lettre){
+        System.out.println(lettre);
+        return vs.revoieToutesLesVilles(lettre);
     }
 }

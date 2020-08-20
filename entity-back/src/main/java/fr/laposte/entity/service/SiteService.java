@@ -31,8 +31,7 @@ public class SiteService {
          if (villeRepository.findById(idVille).isPresent()) {
           ville = villeRepository.findById(idVille).get();
          }
-        System.out.println(siteRepository.findAllByVille(ville).toString());
-       return siteRepository.findAllByVille(ville);
+       return siteRepository.findAllByVilleOrderByNomSiteAsc(ville);
     }
 
 }

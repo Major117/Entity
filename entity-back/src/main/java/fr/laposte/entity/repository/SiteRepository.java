@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface SiteRepository extends JpaRepository<Site,Integer> {
 
-    List<Site> findAllByVille(Ville ville);
+    List<Site> findAllByVilleOrderByNomSiteAsc(Ville ville);
 
 }

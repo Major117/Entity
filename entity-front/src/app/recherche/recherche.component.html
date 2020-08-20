@@ -28,13 +28,25 @@
 
     <br>
 
-    <mat-form-field>
+    <!--<mat-form-field>
       <mat-label>Ville :</mat-label>
       <mat-select formControlName="ville">
         <mat-option value=""></mat-option>
         <mat-option *ngFor="let v of ville" [value]="v.idVille">{{v.nomVille}}</mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field>-->
+
+   <mat-form-field>
+     <mat-label>Ville :</mat-label>
+     <input type="text" matInput formControlName="ville"
+            [matAutocomplete]="auto" placeholder="Entrer les 3 premiere lettre"
+              (input)="chargeVille($event.target.value)">
+     <mat-autocomplete #auto="matAutocomplete" [displayWith]="">
+       <mat-option *ngFor="let v of ville" [value]="v.idVille" >{{v.nomVille}}</mat-option>
+
+     </mat-autocomplete>
+   </mat-form-field>
+
     <br>
 
     <div class="container-radio">

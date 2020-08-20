@@ -17,8 +17,8 @@ public class VilleService {
      * Retourne la liste de toutes les villes.
      * @return
      */
-    public List<Ville> revoieToutesLesVilles(){
+    public List<Ville> revoieToutesLesVilles(String lettre){
 
-        return villeRepository.findAllByOrderByNomVilleAsc();
+        return villeRepository.autoCompleteVille(lettre);
     }
 }
